@@ -66,7 +66,9 @@ public class Logic_Board {
                 }
             }
         }
+        System.out.println("yee");
         return coord;
+
     }
 
 
