@@ -34,7 +34,7 @@ public class Main_Controller
     //Misc
     private double startDragX;
     private double startDragY;
-    private int coord = 0;
+    private String coord = "0";
     private boolean guiMove = false;
     private ImageView pieceMoved = new ImageView();
 
@@ -180,16 +180,6 @@ public class Main_Controller
         imgToString.put(kingblack, "k");
         imgToString.put(kingwhite, "K");
 
-        /*pawnwhite1.setOnDragDetected(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                Dragboard db = pawnwhite1.startDragAndDrop(TransferMode.ANY);
-                ClipboardContent cb = new ClipboardContent();
-                cb.putImage(pawnwhite1.getImage());
-                db.setContent(cb);
-                event.consume();
-            }
-        });*/
         EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -216,24 +206,11 @@ public class Main_Controller
             @Override
             public void handle(DragEvent event) {
                 Dragboard db = event.getDragboard();
-                System.out.println("yee");
                 if(db.hasImage()){
-                    System.out.println("yhyh");
-
                     String row = Integer.toString(GridPane.getRowIndex((Node) event.getSource())-1);
-                    System.out.println("hokay?");
-                    String col = GridPane.getColumnIndex((Node)event.getSource()).toString();
-
-                    System.out.println("hokay2?");
-                    coord = Integer.parseInt(row+col);
-                    if(coord == 0){
-                        System.out.println("oh oof");
-                    }
-                    System.out.println(coord);
-                    System.out.println("hokay?");
+                    String col = Integer.toString(GridPane.getColumnIndex((Node)event.getSource()));
+                    coord = row+col;
                     logic_board.makeMove(imgToString.get(pieceMoved), coord);
-                    System.out.println("Dropped");
-                    System.out.println(logic_board.getPos(pawnwhite1));
                     event.setDropCompleted(true);
                 }
                 else{
@@ -243,98 +220,28 @@ public class Main_Controller
             }
         };
 
-        /*rect1.setOnDragOver(dragOver);
-        rect2.setOnDragOver(dragOver);
-        rect1.setOnDragDropped(dragDrop);
-        rect2.setOnDragDropped(dragDrop);*/
-        //Event-Handling Assignment for Pieces
-
-
-        //pawnwhite1.setOnDragDetected(eventHandler);
-        /*rect1.setOnDragOver(new EventHandler<DragEvent>() {
-        @Override
-        public void handle(DragEvent event) {
-            Dragboard db = event.getDragboard();
-            if(db.hasImage()){
-                event.acceptTransferModes(TransferMode.MOVE);
-            }
-            event.consume();
-        }
-    });
-        rect2.setOnDragOver(new EventHandler<DragEvent>() {
-            @Override
-            public void handle(DragEvent event) {
-                Dragboard db = event.getDragboard();
-                if(db.hasImage()){
-                    event.acceptTransferModes(TransferMode.MOVE);
-                }
-                event.consume();
-            }
-        });*/
-        /*rect1.setOnDragDropped(new EventHandler<DragEvent>() {
-            @Override
-            public void handle(DragEvent event) {
-                Dragboard db = event.getDragboard();
-                System.out.println("yee");
-                if(db.hasImage()){
-                    System.out.println("yhyh");
-
-                    String row = Integer.toString(GridPane.getRowIndex(rect1)-1);
-                    String col = GridPane.getColumnIndex(rect1).toString();
-                    coord = Integer.parseInt(row+col);
-
-                    logic_board.makeMove(imgToString.get(pieceMoved), coord);
-                    System.out.println("Dropped");
-                    System.out.println(logic_board.getPos(pawnwhite1));
-                    event.setDropCompleted(true);
-                }
-                else{
-                    event.setDropCompleted(false);
-                }
-                event.consume();
-            }
-        });
-        rect2.setOnDragDropped(new EventHandler<DragEvent>() {
-            @Override
-            public void handle(DragEvent event) {
-                Dragboard db = event.getDragboard();
-                System.out.println("yee");
-                if(db.hasImage()){
-
-                    System.out.println("yhyh");
-                    ImageView image = new ImageView(db.getImage());
-
-
-
-                    String row = Integer.toString(GridPane.getRowIndex(rect2)-1);
-                    String col = GridPane.getColumnIndex(rect2).toString();
-                    coord = Integer.parseInt(row+col);
-                    logic_board.makeMove(imgToString.get(pieceMoved), coord);
-                    System.out.println("Dropped");
-                    System.out.println(logic_board.getPos(pawnwhite1));
-                    event.setDropCompleted(true);
-                }
-                else{
-                    event.setDropCompleted(false);
-                }
-                event.consume();
-            }
-        });*/
         //Transpose logic board with initial setup
 
+
+
+        for(int row = 1; row<9; row++){
+            for(int c = 0; c<8; c++){
+                Rectangle r = new Rectangle();
+                r.setFill(Color.TRANSPARENT);
+                r.setHeight(58);
+                r.setWidth(57);
+                boardGui.add(r, c, row);
+                r.setOnDragOver(dragOver);
+                r.setOnDragDropped(dragDrop);
+            }
+        }
         transposeToGui(logic_board.boardLogic);
         ObservableList<Node> children = boardGui.getChildren();
         for(Node node: children)
         {
             if(node instanceof ImageView)
             {
-                System.out.println("Yep");
                 node.setOnDragDetected(eventHandler);
-            }
-            if(node instanceof Rectangle)
-            {
-                node.setOnDragOver(dragOver);
-                node.setOnDragDropped(dragDrop);
             }
         }
         processMove();
@@ -374,33 +281,32 @@ public class Main_Controller
     public void processMove(){
         //Checks validity of move then converts onto logicboard
         System.out.println(logic_board.getPos(rookwhite2));
-        logic_board.makeMove(imgToString.get(rookwhite2), 33);
+        logic_board.makeMove(imgToString.get(rookwhite2), "33");
         System.out.println(logic_board.getPos(rookwhite2));
 
     }
 
-    public void makeMove(String pieceString, int coord) {
+    public void makeMove(String pieceString, String coord) {
 
-        int row = Character.getNumericValue(Integer.toString(coord).charAt(0));
-        int col = Character.getNumericValue(Integer.toString(coord).charAt(1));
+        int row = Character.getNumericValue(coord.charAt(0));
+        int col = Character.getNumericValue(coord.charAt(1));
         boardGui.getChildren().remove(getKey(pieceString));
-        System.out.println(pieceString + "yee");
+
 
         if (logic_board.boardLogic[row][col] != "") {
             boardGui.getChildren().remove(getKey(logic_board.boardLogic[row][col]));
-            System.out.println(logic_board.boardLogic[row][col] + "yes");
-
         }
+        logic_board.boardLogic[row][col] = pieceString;
+        row++;
 
-
-        for(int r = 0; r<8; r++)
+        for(int r = 1; r<9; r++)
         {
             for(int c = 0; c<8; c++)
             {
                 if(r == row && c == col)
                 {
 
-                    boardGui.add(getKey(pieceString), col, row + 1);
+                    boardGui.add(getKey(pieceString), col, row);
 
                 }
             }

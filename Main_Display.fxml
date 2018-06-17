@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -36,7 +35,6 @@
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2f2f2f" height="58.0" stroke="BLACK" strokeType="INSIDE" width="57.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2f2f2f" height="58.0" stroke="BLACK" strokeType="INSIDE" width="57.0" GridPane.columnIndex="5" GridPane.rowIndex="1" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2f2f2f" height="58.0" stroke="BLACK" strokeType="INSIDE" width="57.0" GridPane.columnIndex="7" GridPane.rowIndex="1" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2f2f2f" height="58.0" stroke="BLACK" strokeType="INSIDE" width="57.0" GridPane.rowIndex="2" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2f2f2f" height="58.0" stroke="BLACK" strokeType="INSIDE" width="57.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2f2f2f" height="58.0" stroke="BLACK" strokeType="INSIDE" width="57.0" GridPane.columnIndex="4" GridPane.rowIndex="2" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2f2f2f" height="58.0" stroke="BLACK" strokeType="INSIDE" width="57.0" GridPane.columnIndex="6" GridPane.rowIndex="2" />
@@ -44,7 +42,6 @@
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2f2f2f" height="58.0" stroke="BLACK" strokeType="INSIDE" width="57.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2f2f2f" height="58.0" stroke="BLACK" strokeType="INSIDE" width="57.0" GridPane.columnIndex="5" GridPane.rowIndex="3" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2f2f2f" height="58.0" stroke="BLACK" strokeType="INSIDE" width="57.0" GridPane.columnIndex="7" GridPane.rowIndex="3" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2f2f2f" height="58.0" stroke="BLACK" strokeType="INSIDE" width="57.0" GridPane.rowIndex="4" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2f2f2f" height="58.0" stroke="BLACK" strokeType="INSIDE" width="57.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2f2f2f" height="58.0" stroke="BLACK" strokeType="INSIDE" width="57.0" GridPane.columnIndex="4" GridPane.rowIndex="4" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2f2f2f" height="58.0" stroke="BLACK" strokeType="INSIDE" width="57.0" GridPane.columnIndex="6" GridPane.rowIndex="4" />
@@ -52,7 +49,6 @@
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2f2f2f" height="58.0" stroke="BLACK" strokeType="INSIDE" width="57.0" GridPane.columnIndex="3" GridPane.rowIndex="5" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2f2f2f" height="58.0" stroke="BLACK" strokeType="INSIDE" width="57.0" GridPane.columnIndex="5" GridPane.rowIndex="5" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2f2f2f" height="58.0" stroke="BLACK" strokeType="INSIDE" width="57.0" GridPane.columnIndex="7" GridPane.rowIndex="5" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2f2f2f" height="58.0" stroke="BLACK" strokeType="INSIDE" width="57.0" GridPane.rowIndex="6" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2f2f2f" height="58.0" stroke="BLACK" strokeType="INSIDE" width="57.0" GridPane.columnIndex="2" GridPane.rowIndex="6" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2f2f2f" height="58.0" stroke="BLACK" strokeType="INSIDE" width="57.0" GridPane.columnIndex="4" GridPane.rowIndex="6" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2f2f2f" height="58.0" stroke="BLACK" strokeType="INSIDE" width="57.0" GridPane.columnIndex="6" GridPane.rowIndex="6" />
@@ -60,169 +56,13 @@
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2f2f2f" height="58.0" stroke="BLACK" strokeType="INSIDE" width="57.0" GridPane.columnIndex="3" GridPane.rowIndex="7" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2f2f2f" height="58.0" stroke="BLACK" strokeType="INSIDE" width="57.0" GridPane.columnIndex="5" GridPane.rowIndex="7" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2f2f2f" height="58.0" stroke="BLACK" strokeType="INSIDE" width="57.0" GridPane.columnIndex="7" GridPane.rowIndex="7" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2f2f2f" height="58.0" stroke="BLACK" strokeType="INSIDE" width="57.0" GridPane.rowIndex="8" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2f2f2f" height="58.0" stroke="BLACK" strokeType="INSIDE" width="57.0" GridPane.columnIndex="2" GridPane.rowIndex="8" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2f2f2f" height="58.0" stroke="BLACK" strokeType="INSIDE" width="57.0" GridPane.columnIndex="4" GridPane.rowIndex="8" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2f2f2f" height="58.0" stroke="BLACK" strokeType="INSIDE" width="57.0" GridPane.columnIndex="6" GridPane.rowIndex="8" />
-            <Rectangle fx:id="rect1" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="51.0" stroke="WHITE" strokeType="INSIDE" width="51.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
-               <GridPane.margin>
-                  <Insets left="3.0" />
-               </GridPane.margin></Rectangle>
-            <Rectangle fx:id="rect11" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="51.0" stroke="WHITE" strokeType="INSIDE" width="51.0" GridPane.rowIndex="1">
-               <GridPane.margin>
-                  <Insets left="3.0" />
-               </GridPane.margin>
-            </Rectangle>
-            <Rectangle fx:id="rect12" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="51.0" stroke="WHITE" strokeType="INSIDE" width="51.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
-               <GridPane.margin>
-                  <Insets left="3.0" />
-               </GridPane.margin>
-            </Rectangle>
-            <Rectangle fx:id="rect13" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="51.0" stroke="WHITE" strokeType="INSIDE" width="51.0" GridPane.columnIndex="4" GridPane.rowIndex="1">
-               <GridPane.margin>
-                  <Insets left="3.0" />
-               </GridPane.margin>
-            </Rectangle>
-            <Rectangle fx:id="rect14" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="51.0" stroke="WHITE" strokeType="INSIDE" width="51.0" GridPane.columnIndex="6" GridPane.rowIndex="1">
-               <GridPane.margin>
-                  <Insets left="3.0" />
-               </GridPane.margin>
-            </Rectangle>
-            <Rectangle fx:id="rect15" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="51.0" stroke="WHITE" strokeType="INSIDE" width="51.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
-               <GridPane.margin>
-                  <Insets left="3.0" />
-               </GridPane.margin>
-            </Rectangle>
-            <Rectangle fx:id="rect16" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="51.0" stroke="WHITE" strokeType="INSIDE" width="51.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
-               <GridPane.margin>
-                  <Insets left="3.0" />
-               </GridPane.margin>
-            </Rectangle>
-            <Rectangle fx:id="rect17" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="51.0" stroke="WHITE" strokeType="INSIDE" width="51.0" GridPane.columnIndex="5" GridPane.rowIndex="2">
-               <GridPane.margin>
-                  <Insets left="3.0" />
-               </GridPane.margin>
-            </Rectangle>
-            <Rectangle fx:id="rect18" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="51.0" stroke="WHITE" strokeType="INSIDE" width="51.0" GridPane.columnIndex="7" GridPane.rowIndex="2">
-               <GridPane.margin>
-                  <Insets left="3.0" />
-               </GridPane.margin>
-            </Rectangle>
-            <Rectangle fx:id="rect19" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="51.0" stroke="WHITE" strokeType="INSIDE" width="51.0" GridPane.rowIndex="3">
-               <GridPane.margin>
-                  <Insets left="3.0" />
-               </GridPane.margin>
-            </Rectangle>
-            <Rectangle fx:id="rect110" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="51.0" stroke="WHITE" strokeType="INSIDE" width="51.0" GridPane.columnIndex="2" GridPane.rowIndex="3">
-               <GridPane.margin>
-                  <Insets left="3.0" />
-               </GridPane.margin>
-            </Rectangle>
-            <Rectangle fx:id="rect111" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="51.0" stroke="WHITE" strokeType="INSIDE" width="51.0" GridPane.columnIndex="4" GridPane.rowIndex="3">
-               <GridPane.margin>
-                  <Insets left="3.0" />
-               </GridPane.margin>
-            </Rectangle>
-            <Rectangle fx:id="rect112" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="51.0" stroke="WHITE" strokeType="INSIDE" width="51.0" GridPane.columnIndex="6" GridPane.rowIndex="3">
-               <GridPane.margin>
-                  <Insets left="3.0" />
-               </GridPane.margin>
-            </Rectangle>
-            <Rectangle fx:id="rect113" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="51.0" stroke="WHITE" strokeType="INSIDE" width="51.0" GridPane.columnIndex="3" GridPane.rowIndex="4">
-               <GridPane.margin>
-                  <Insets left="3.0" />
-               </GridPane.margin>
-            </Rectangle>
-            <Rectangle fx:id="rect114" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="51.0" stroke="WHITE" strokeType="INSIDE" width="51.0" GridPane.columnIndex="5" GridPane.rowIndex="4">
-               <GridPane.margin>
-                  <Insets left="3.0" />
-               </GridPane.margin>
-            </Rectangle>
-            <Rectangle fx:id="rect115" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="51.0" stroke="WHITE" strokeType="INSIDE" width="51.0" GridPane.columnIndex="7" GridPane.rowIndex="4">
-               <GridPane.margin>
-                  <Insets left="3.0" />
-               </GridPane.margin>
-            </Rectangle>
-            <Rectangle fx:id="rect116" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="51.0" stroke="WHITE" strokeType="INSIDE" width="51.0" GridPane.rowIndex="5">
-               <GridPane.margin>
-                  <Insets left="3.0" />
-               </GridPane.margin>
-            </Rectangle>
-            <Rectangle fx:id="rect117" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="51.0" stroke="WHITE" strokeType="INSIDE" width="51.0" GridPane.columnIndex="2" GridPane.rowIndex="5">
-               <GridPane.margin>
-                  <Insets left="3.0" />
-               </GridPane.margin>
-            </Rectangle>
-            <Rectangle fx:id="rect118" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="51.0" stroke="WHITE" strokeType="INSIDE" width="51.0" GridPane.columnIndex="4" GridPane.rowIndex="5">
-               <GridPane.margin>
-                  <Insets left="3.0" />
-               </GridPane.margin>
-            </Rectangle>
-            <Rectangle fx:id="rect119" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="51.0" stroke="WHITE" strokeType="INSIDE" width="51.0" GridPane.columnIndex="6" GridPane.rowIndex="5">
-               <GridPane.margin>
-                  <Insets left="3.0" />
-               </GridPane.margin>
-            </Rectangle>
-            <Rectangle fx:id="rect120" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="51.0" stroke="WHITE" strokeType="INSIDE" width="51.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
-               <GridPane.margin>
-                  <Insets left="3.0" />
-               </GridPane.margin>
-            </Rectangle>
-            <Rectangle fx:id="rect121" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="51.0" stroke="WHITE" strokeType="INSIDE" width="51.0" GridPane.columnIndex="3" GridPane.rowIndex="6">
-               <GridPane.margin>
-                  <Insets left="3.0" />
-               </GridPane.margin>
-            </Rectangle>
-            <Rectangle fx:id="rect122" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="51.0" stroke="WHITE" strokeType="INSIDE" width="51.0" GridPane.columnIndex="5" GridPane.rowIndex="6">
-               <GridPane.margin>
-                  <Insets left="3.0" />
-               </GridPane.margin>
-            </Rectangle>
-            <Rectangle fx:id="rect123" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="51.0" stroke="WHITE" strokeType="INSIDE" width="51.0" GridPane.columnIndex="7" GridPane.rowIndex="6">
-               <GridPane.margin>
-                  <Insets left="3.0" />
-               </GridPane.margin>
-            </Rectangle>
-            <Rectangle fx:id="rect124" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="51.0" stroke="WHITE" strokeType="INSIDE" width="51.0" GridPane.rowIndex="7">
-               <GridPane.margin>
-                  <Insets left="3.0" />
-               </GridPane.margin>
-            </Rectangle>
-            <Rectangle fx:id="rect125" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="51.0" stroke="WHITE" strokeType="INSIDE" width="51.0" GridPane.columnIndex="2" GridPane.rowIndex="7">
-               <GridPane.margin>
-                  <Insets left="3.0" />
-               </GridPane.margin>
-            </Rectangle>
-            <Rectangle fx:id="rect126" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="51.0" stroke="WHITE" strokeType="INSIDE" width="51.0" GridPane.columnIndex="4" GridPane.rowIndex="7">
-               <GridPane.margin>
-                  <Insets left="3.0" />
-               </GridPane.margin>
-            </Rectangle>
-            <Rectangle fx:id="rect127" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="51.0" stroke="WHITE" strokeType="INSIDE" width="51.0" GridPane.columnIndex="6" GridPane.rowIndex="7">
-               <GridPane.margin>
-                  <Insets left="3.0" />
-               </GridPane.margin>
-            </Rectangle>
-            <Rectangle fx:id="rect128" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="51.0" stroke="WHITE" strokeType="INSIDE" width="51.0" GridPane.columnIndex="1" GridPane.rowIndex="8">
-               <GridPane.margin>
-                  <Insets left="3.0" />
-               </GridPane.margin>
-            </Rectangle>
-            <Rectangle fx:id="rect129" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="51.0" stroke="WHITE" strokeType="INSIDE" width="51.0" GridPane.columnIndex="3" GridPane.rowIndex="8">
-               <GridPane.margin>
-                  <Insets left="3.0" />
-               </GridPane.margin>
-            </Rectangle>
-            <Rectangle fx:id="rect130" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="51.0" stroke="WHITE" strokeType="INSIDE" width="51.0" GridPane.columnIndex="5" GridPane.rowIndex="8">
-               <GridPane.margin>
-                  <Insets left="3.0" />
-               </GridPane.margin>
-            </Rectangle>
-            <Rectangle fx:id="rect131" arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="51.0" stroke="WHITE" strokeType="INSIDE" width="51.0" GridPane.columnIndex="7" GridPane.rowIndex="8">
-               <GridPane.margin>
-                  <Insets left="3.0" />
-               </GridPane.margin>
-            </Rectangle>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2f2f2f" height="58.0" stroke="BLACK" strokeType="INSIDE" width="57.0" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2f2f2f" height="58.0" stroke="BLACK" strokeType="INSIDE" width="57.0" GridPane.columnIndex="0" GridPane.rowIndex="6" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2f2f2f" height="58.0" stroke="BLACK" strokeType="INSIDE" width="57.0" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2f2f2f" height="58.0" stroke="BLACK" strokeType="INSIDE" width="57.0" GridPane.rowIndex="4" />
 
          </children>
       </GridPane>
