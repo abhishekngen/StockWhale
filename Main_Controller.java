@@ -35,8 +35,13 @@ public class Main_Controller
     private double startDragX;
     private double startDragY;
     private String coord = "0";
+    private String coordgui = "0";
+    private String originalcoord = "0";
     private boolean guiMove = false;
     private ImageView pieceMoved = new ImageView();
+    private int dragDetect = 0;
+    private ArrayList<String> possibleMoves = new ArrayList<String>();
+    Pawn pawn = Pawn.getInstance();
 
     //ImageView Initialisation
     ImageView pawnwhite1 = new ImageView(new Image("/Images/PawnWhite.png"));
@@ -189,6 +194,7 @@ public class Main_Controller
                 cb.putImage(source.getImage());
                 db.setContent(cb);
                 pieceMoved = source;
+                originalcoord = Integer.toString(GridPane.getColumnIndex(source)) + Integer.toString(GridPane.getRowIndex(source));
                 event.consume();
             }
         };
@@ -199,6 +205,7 @@ public class Main_Controller
                 if(db.hasImage()){
                     event.acceptTransferModes(TransferMode.MOVE);
                 }
+
                 event.consume();
             }
         };
@@ -208,22 +215,25 @@ public class Main_Controller
                 Dragboard db = event.getDragboard();
                 if(db.hasImage()){
                     String row = Integer.toString(GridPane.getRowIndex((Node) event.getSource())-1);
+                    String guirow = Integer.toString(GridPane.getRowIndex((Node) event.getSource()));
                     String col = Integer.toString(GridPane.getColumnIndex((Node)event.getSource()));
                     coord = row+col;
-                    logic_board.makeMove(imgToString.get(pieceMoved), coord);
+                    coordgui = guirow + col;
                     event.setDropCompleted(true);
                 }
-                else{
+                else {
                     event.setDropCompleted(false);
                 }
+                possibleMoves.clear();
+                if(Character.toLowerCase(imgToString.get(pieceMoved).charAt(0)) == 'p') {
+                    possibleMoves = pawn.getPossibleWhiteMoves(originalcoord);
+                }
+                processMove(pieceMoved, coordgui);
                 event.consume();
             }
         };
 
         //Transpose logic board with initial setup
-
-
-
         for(int row = 1; row<9; row++){
             for(int c = 0; c<8; c++){
                 Rectangle r = new Rectangle();
@@ -242,13 +252,11 @@ public class Main_Controller
             if(node instanceof ImageView)
             {
                 node.setOnDragDetected(eventHandler);
+                node.setOnDragOver(dragOver);
+                node.setOnDragDropped(dragDrop);
             }
         }
-        processMove();
-
-
     }
-
     public void transposeToGui(String[][] board)
     {
         for(int row = 0; row<8; row++)
@@ -262,8 +270,6 @@ public class Main_Controller
             }
         }
     }
-
-
     public ImageView getKey(String logicPiece)
     {
         ImageView key = new ImageView();
@@ -277,43 +283,42 @@ public class Main_Controller
         }
         return key;
     }
-
-    public void processMove(){
+    public void processMove(ImageView piece, String coordgui){
         //Checks validity of move then converts onto logicboard
-        System.out.println(logic_board.getPos(rookwhite2));
-        logic_board.makeMove(imgToString.get(rookwhite2), "33");
-        System.out.println(logic_board.getPos(rookwhite2));
-
+        System.out.println("ok");
+        System.out.println(coordgui);
+        boolean validMove = false;
+        for(String move: possibleMoves){
+            System.out.println(move);
+            if(move.equals(coordgui)){
+                validMove = true;
+                System.out.println("yeet");
+                break;
+            }
+        }
+        if(validMove) {
+            logic_board.makeMove(imgToString.get(piece), coord);
+        }
     }
-
     public void makeMove(String pieceString, String coord) {
 
         int row = Character.getNumericValue(coord.charAt(0));
         int col = Character.getNumericValue(coord.charAt(1));
         boardGui.getChildren().remove(getKey(pieceString));
-
-
         if (logic_board.boardLogic[row][col] != "") {
             boardGui.getChildren().remove(getKey(logic_board.boardLogic[row][col]));
         }
         logic_board.boardLogic[row][col] = pieceString;
         row++;
-
         for(int r = 1; r<9; r++)
         {
             for(int c = 0; c<8; c++)
             {
                 if(r == row && c == col)
                 {
-
                     boardGui.add(getKey(pieceString), col, row);
-
                 }
             }
         }
-
     }
-
-
-
 }
