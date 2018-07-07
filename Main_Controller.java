@@ -32,8 +32,6 @@ public class Main_Controller
     public HashMap<ImageView, String> imgToString = new HashMap<ImageView, String>();
 
     //Misc
-    private double startDragX;
-    private double startDragY;
     private String coord = "0";
     private String coordgui = "0";
     private String originalcoord = "0";
@@ -41,8 +39,15 @@ public class Main_Controller
     private ImageView pieceMoved = new ImageView();
     private int dragDetect = 0;
     private ArrayList<String> possibleMoves = new ArrayList<String>();
-    Pawn pawn = Pawn.getInstance();
+    private boolean isWhitePlaying = true;
 
+    //Piece Object References
+    Pawn pawn;
+    Rook rook;
+    Bishop bishop;
+    Knight knight;
+    Queen queen;
+    King king;
     //ImageView Initialisation
     ImageView pawnwhite1 = new ImageView(new Image("/Images/PawnWhite.png"));
     ImageView pawnwhite2 = new ImageView(new Image("/Images/PawnWhite.png"));
@@ -94,6 +99,12 @@ public class Main_Controller
 
     public void initialize(URL location, ResourceBundle resources)
     {
+        pawn = Pawn.getInstance();
+        rook = Rook.getInstance();
+        knight = Knight.getInstance();
+        bishop = Bishop.getInstance();
+        queen = Queen.getInstance();
+        king = King.getInstance();
         //Image Sizing
         pawnblack1.setFitWidth(60);
         pawnblack1.setFitHeight(58);
@@ -184,7 +195,7 @@ public class Main_Controller
         imgToString.put(queenwhite, "Q");
         imgToString.put(kingblack, "k");
         imgToString.put(kingwhite, "K");
-
+        logic_board.init();
         EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -225,8 +236,45 @@ public class Main_Controller
                     event.setDropCompleted(false);
                 }
                 possibleMoves.clear();
-                if(Character.toLowerCase(imgToString.get(pieceMoved).charAt(0)) == 'p') {
-                    possibleMoves = pawn.getPossibleWhiteMoves(originalcoord);
+                if(isWhitePlaying) {
+                    if (imgToString.get(pieceMoved).charAt(0) == 'P') {
+                        possibleMoves = pawn.getPossibleMoves(originalcoord, isWhitePlaying);
+                    }
+                    if (imgToString.get(pieceMoved).charAt(0) == 'R') {
+                        possibleMoves = rook.getPossibleMoves(originalcoord, isWhitePlaying);
+                    }
+                    if (imgToString.get(pieceMoved).charAt(0) == 'N') {
+                        possibleMoves = knight.getPossibleMoves(originalcoord, isWhitePlaying);
+                    }
+                    if (imgToString.get(pieceMoved).charAt(0) == 'B') {
+                        possibleMoves = bishop.getPossibleMoves(originalcoord, isWhitePlaying);
+                    }
+                    if (imgToString.get(pieceMoved).charAt(0) == 'Q') {
+                        possibleMoves = queen.getPossibleMoves(originalcoord, isWhitePlaying);
+                    }
+                    if (imgToString.get(pieceMoved).charAt(0) == 'K') {
+                        possibleMoves = king.getPossibleMoves(originalcoord, isWhitePlaying);
+                    }
+                }
+                else{
+                    if (imgToString.get(pieceMoved).charAt(0) == 'p') {
+                        possibleMoves = pawn.getPossibleMoves(originalcoord, isWhitePlaying);
+                    }
+                    if (imgToString.get(pieceMoved).charAt(0) == 'r') {
+                        possibleMoves = rook.getPossibleMoves(originalcoord, isWhitePlaying);
+                    }
+                    if (imgToString.get(pieceMoved).charAt(0) == 'n') {
+                        possibleMoves = knight.getPossibleMoves(originalcoord, isWhitePlaying);
+                    }
+                    if (imgToString.get(pieceMoved).charAt(0) == 'b') {
+                        possibleMoves = bishop.getPossibleMoves(originalcoord, isWhitePlaying);
+                    }
+                    if (imgToString.get(pieceMoved).charAt(0) == 'q') {
+                        possibleMoves = queen.getPossibleMoves(originalcoord, isWhitePlaying);
+                    }
+                    if (imgToString.get(pieceMoved).charAt(0) == 'k') {
+                        possibleMoves = king.getPossibleMoves(originalcoord, isWhitePlaying);
+                    }
                 }
                 processMove(pieceMoved, coordgui);
                 event.consume();
@@ -285,19 +333,15 @@ public class Main_Controller
     }
     public void processMove(ImageView piece, String coordgui){
         //Checks validity of move then converts onto logicboard
-        System.out.println("ok");
-        System.out.println(coordgui);
         boolean validMove = false;
         for(String move: possibleMoves){
-            System.out.println(move);
             if(move.equals(coordgui)){
                 validMove = true;
-                System.out.println("yeet");
                 break;
             }
         }
         if(validMove) {
-            logic_board.makeMove(imgToString.get(piece), coord);
+            logic_board.makeMove(imgToString.get(piece), coord, isWhitePlaying);
         }
     }
     public void makeMove(String pieceString, String coord) {
@@ -305,10 +349,6 @@ public class Main_Controller
         int row = Character.getNumericValue(coord.charAt(0));
         int col = Character.getNumericValue(coord.charAt(1));
         boardGui.getChildren().remove(getKey(pieceString));
-        if (logic_board.boardLogic[row][col] != "") {
-            boardGui.getChildren().remove(getKey(logic_board.boardLogic[row][col]));
-        }
-        logic_board.boardLogic[row][col] = pieceString;
         row++;
         for(int r = 1; r<9; r++)
         {
@@ -320,5 +360,16 @@ public class Main_Controller
                 }
             }
         }
+        if(logic_board.isKingInCheck(!isWhitePlaying)){
+            if(logic_board.isKingInCheckMate(isWhitePlaying)){
+                if(isWhitePlaying){
+                    System.out.println("Black is in checkmate. White wins!");
+                }
+                else{
+                    System.out.println("White is in checkmate. Black wins!");
+                }
+            }
+        }
+        isWhitePlaying = !isWhitePlaying;
     }
 }

@@ -13,26 +13,58 @@ public class Pawn extends Piece{
         return instance;
     }
     @Override
-    public ArrayList<String> getPossibleWhiteMoves(String originalcoord) {
+    public ArrayList<String> getPossibleMoves(String originalcoord, boolean isWhitePlaying) {
+        possibleMoves.clear();
         int row = Character.getNumericValue(originalcoord.charAt(1));
         int col = Character.getNumericValue(originalcoord.charAt(0));
-        if(row == 7){
-            possibleMoves.add(Integer.toString(row-2) + Integer.toString(col));
+        if(isWhitePlaying) {
+            if (row - 1 > 0 && col + 1 < 8) {
+                if (logic_board.boardLogic[row - 2][col + 1] != "") {
+                    if (Character.isLowerCase(logic_board.boardLogic[row - 2][col + 1].charAt(0))) {
+                        addIfValid(row - 1, col + 1, isWhitePlaying);
+                    }
+                }
+            }
+            if (row - 1 > 0 && col - 1 >= 0) {
+                if (logic_board.boardLogic[row - 2][col - 1] != "") {
+                    if (Character.isLowerCase(logic_board.boardLogic[row - 2][col - 1].charAt(0))) {
+                        addIfValid(row - 1, col - 1, isWhitePlaying);
+                    }
+                }
+            }
+            if (row == 7) {
+                if (logic_board.boardLogic[row - 3][col] == "") {
+                    addIfValid(row - 2, col, isWhitePlaying);
+                }
+            }
+            if (logic_board.boardLogic[row - 2][col] == "") {
+                addIfValid(row - 1, col, isWhitePlaying);
+            }
         }
-        if(logic_board.boardLogic[row-2][col].equals("")){
-            possibleMoves.add(Integer.toString(row-1)+Integer.toString(col));
-        }
-        if(!logic_board.boardLogic[row-2][col+1].equals("")){
-            possibleMoves.add(Integer.toString(row-1) + Integer.toString(col+1));
-        }
-        if(!logic_board.boardLogic[row-2][col-1].equals("")){
-            possibleMoves.add(Integer.toString(row-1) + Integer.toString(col-1));
+        else{
+            if(row==2){
+                if (logic_board.boardLogic[row + 1][col] == "") {
+                    addIfValid(row + 2, col, isWhitePlaying);
+                }
+            }
+            if (logic_board.boardLogic[row][col] == "") {
+                addIfValid(row + 1, col, isWhitePlaying);
+            }
+            if (row+1<9 && col + 1 < 8) {
+                if (logic_board.boardLogic[row][col + 1] != "") {
+                    if (Character.isUpperCase(logic_board.boardLogic[row][col + 1].charAt(0))) {
+                        addIfValid(row+1, col + 1, isWhitePlaying);
+                    }
+                }
+            }
+            if (row + 1<9 && col - 1 >= 0) {
+                if (logic_board.boardLogic[row][col - 1] != "") {
+                    if (Character.isUpperCase(logic_board.boardLogic[row][col - 1].charAt(0))) {
+                        addIfValid(row + 1, col - 1, isWhitePlaying);
+                    }
+                }
+            }
         }
         return possibleMoves;
-    }
-
-    @Override
-    public ArrayList<String> getPossibleBlackMoves(String originalcoord) {
-        return null;
     }
 }
