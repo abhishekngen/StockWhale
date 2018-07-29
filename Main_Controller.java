@@ -40,7 +40,17 @@ public class Main_Controller
     private int dragDetect = 0;
     private ArrayList<String> possibleMoves = new ArrayList<String>();
     private boolean isWhitePlaying = true;
-
+    public boolean hasRook1Moved = false;
+    public boolean hasRook2Moved = false;
+    public boolean hasRook3Moved = false;
+    public boolean hasRook4Moved = false;
+    public boolean hasKing1Moved = false;
+    public boolean hasKing2Moved = false;
+    public boolean hasBlackCastled = false;
+    public boolean hasWhiteCastled = false;
+    private boolean AIInit = true;
+    private boolean isAIPlaying = false;
+    private boolean isCheckMate = false;
     //Piece Object References
     Pawn pawn;
     Rook rook;
@@ -95,6 +105,7 @@ public class Main_Controller
 
     //Object References
     Logic_Board logic_board = Logic_Board.getInstance();
+    AI ai = AI.getInstance();
 
 
     public void initialize(URL location, ResourceBundle resources)
@@ -105,6 +116,7 @@ public class Main_Controller
         bishop = Bishop.getInstance();
         queen = Queen.getInstance();
         king = King.getInstance();
+        ai.init();
         //Image Sizing
         pawnblack1.setFitWidth(60);
         pawnblack1.setFitHeight(58);
@@ -200,10 +212,12 @@ public class Main_Controller
             @Override
             public void handle(MouseEvent event) {
                 ImageView source = (ImageView)event.getSource();
-                Dragboard db = source.startDragAndDrop(TransferMode.ANY);
-                ClipboardContent cb = new ClipboardContent();
-                cb.putImage(source.getImage());
-                db.setContent(cb);
+                if(!isAIPlaying) {
+                    Dragboard db = source.startDragAndDrop(TransferMode.ANY);
+                    ClipboardContent cb = new ClipboardContent();
+                    cb.putImage(source.getImage());
+                    db.setContent(cb);
+                }
                 pieceMoved = source;
                 originalcoord = Integer.toString(GridPane.getColumnIndex(source)) + Integer.toString(GridPane.getRowIndex(source));
                 event.consume();
@@ -276,6 +290,7 @@ public class Main_Controller
                         possibleMoves = king.getPossibleMoves(originalcoord, isWhitePlaying);
                     }
                 }
+                possibleMoves = logic_board.filterMoves(imgToString.get(pieceMoved), possibleMoves, isWhitePlaying);
                 processMove(pieceMoved, coordgui);
                 event.consume();
             }
@@ -345,21 +360,11 @@ public class Main_Controller
         }
     }
     public void makeMove(String pieceString, String coord) {
-
         int row = Character.getNumericValue(coord.charAt(0));
         int col = Character.getNumericValue(coord.charAt(1));
         boardGui.getChildren().remove(getKey(pieceString));
         row++;
-        for(int r = 1; r<9; r++)
-        {
-            for(int c = 0; c<8; c++)
-            {
-                if(r == row && c == col)
-                {
-                    boardGui.add(getKey(pieceString), col, row);
-                }
-            }
-        }
+        boardGui.add(getKey(pieceString), col, row);
         if(logic_board.isKingInCheck(!isWhitePlaying)){
             if(logic_board.isKingInCheckMate(isWhitePlaying)){
                 if(isWhitePlaying){
@@ -368,8 +373,20 @@ public class Main_Controller
                 else{
                     System.out.println("White is in checkmate. Black wins!");
                 }
+                isCheckMate = true;
             }
         }
+        System.out.println("Evaluation: " + logic_board.evaluateBoard());
         isWhitePlaying = !isWhitePlaying;
+        ai.getAllPossibleMoves(isWhitePlaying);
+        if(ai.staleMate && !isCheckMate){
+            System.out.println("It is Stalemate");
+        }
+        isAIPlaying = !isAIPlaying;
+        if(isAIPlaying){
+            ai.AIMakeMove(isWhitePlaying);
+        }
+
+
     }
 }

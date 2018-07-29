@@ -37,7 +37,7 @@ public class Pawn extends Piece{
                     addIfValid(row - 2, col, isWhitePlaying);
                 }
             }
-            if (logic_board.boardLogic[row - 2][col] == "") {
+            if (row - 1>0 && logic_board.boardLogic[row - 2][col] == "") {
                 addIfValid(row - 1, col, isWhitePlaying);
             }
         }
@@ -47,7 +47,7 @@ public class Pawn extends Piece{
                     addIfValid(row + 2, col, isWhitePlaying);
                 }
             }
-            if (logic_board.boardLogic[row][col] == "") {
+            if (row+1<9 && logic_board.boardLogic[row][col] == "") {
                 addIfValid(row + 1, col, isWhitePlaying);
             }
             if (row+1<9 && col + 1 < 8) {

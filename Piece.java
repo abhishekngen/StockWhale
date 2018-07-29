@@ -19,7 +19,7 @@ public abstract class Piece {
                 }
             }
         }catch (Exception e){
-            System.out.println("oof");
+
         }
     }
 }
