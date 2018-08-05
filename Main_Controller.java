@@ -359,6 +359,7 @@ public class Main_Controller
             logic_board.makeMove(imgToString.get(piece), coord, isWhitePlaying);
         }
     }
+
     public void makeMove(String pieceString, String coord) {
         int row = Character.getNumericValue(coord.charAt(0));
         int col = Character.getNumericValue(coord.charAt(1));
@@ -386,6 +387,7 @@ public class Main_Controller
         if(isAIPlaying){
             ai.AIMakeMove(isWhitePlaying);
         }
+
 
 
     }

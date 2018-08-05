@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 public class AI {
@@ -20,6 +21,8 @@ public class AI {
     King king;
     public String[][] validMoves = new String[1000][2];
     int size = 0;
+    String pieceToMove = "";
+    String coordToMove = "";
     public boolean staleMate = false;
     public void init(){
         boardLogic = Logic_Board.getInstance();
@@ -89,36 +92,117 @@ public class AI {
         else{
             System.out.println("L1");
         }*/
-        getAllPossibleMoves(isWhitePlaying);
+        /*getAllPossibleMoves(isWhitePlaying);
         Random random = new Random();
         if(size!=0) {
             int randnum = random.nextInt(size);
             String piece = validMoves[randnum][1];
             String coord = validMoves[randnum][0];
             boardLogic.makeMove(piece, coord, false);
-        }
+        }*/
+        pieceToMove = "";
+        coordToMove = "";
+        double moveScore = alphaBetaMin(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 3);
+        boardLogic.makeMove(pieceToMove, coordToMove, isWhitePlaying);
     }
 
     //Mini-Max!
     public double alphaBetaMax(double alpha, double beta, int depth){
+        double score = 0;
         if(depth == 0){
             return boardLogic.evaluateBoard();
         }
-        ArrayList<String> possibleMoves = boardLogic.getAllPossibleMoves(boardLogic.boardLogic, true);
-        for(int i = 0; i<possibleMoves.size(); i++){
-            boardLogic.tryMove(possibleMoves.get(i).substring(0, 2), possibleMoves.get(i).substring(3));
-            double score = alphaBetaMin(alpha, beta, depth-1);
+        getAllPossibleMoves(true);
+        String[][] copyValidMoves = new String[1000][2];
+        String[][] boardLogicCopy = new String[8][8];
+        for(int i = 0; i<8; i++){
+            boardLogicCopy[i] = Arrays.copyOf(boardLogic.boardLogic[i], 8);
+        }
+        int sizeCopy = size;
+        for(int i = 0; i<sizeCopy; i++){
+            copyValidMoves[i][0] = validMoves[i][0];
+            copyValidMoves[i][1] = validMoves[i][1];
+        }
+        for(int i=0; i<sizeCopy; i++){
+            String piece = copyValidMoves[i][1];
+            String coord = copyValidMoves[i][0];
+            /*System.out.println(piece);
+            System.out.println(copyValidMoves[i+1][1]);
+            System.out.println(coord);
+            System.out.println(copyValidMoves[i+1][0]);*/
+            boardLogic.tryMove(piece, coord);
+            score = alphaBetaMin(alpha, beta, depth-1);
             if(score>=beta){
+                for(int j = 0; j<8; j++){
+                    boardLogic.boardLogic[j] = Arrays.copyOf(boardLogicCopy[j], 8);
+                }
+                if(depth == 3) {
+                    pieceToMove = piece;
+                    coordToMove = coord;
+                }
                 return beta;
             }
             if(score>alpha){
                 alpha = score;
+                if(depth == 3) {
+                    pieceToMove = piece;
+                    coordToMove = coord;
+                }
             }
+            for(int j = 0; j<8; j++){
+                boardLogic.boardLogic[j] = Arrays.copyOf(boardLogicCopy[j], 8);
+            }
+            //System.out.println("yeet");
+
         }
         return alpha;
     }
     public double alphaBetaMin(double alpha, double beta, int depth){
-        return alpha;
+        double score = 0;
+        if(depth == 0){
+            return boardLogic.evaluateBoard();
+        }
+        getAllPossibleMoves(false);
+        String[][] copyValidMoves = new String[1000][2];
+        String[][] boardLogicCopy = new String[8][8];
+        for(int i = 0; i<8; i++){
+            boardLogicCopy[i] = Arrays.copyOf(boardLogic.boardLogic[i], 8);
+        }
+        int sizeCopy = size;
+        for(int i = 0; i<sizeCopy; i++){
+            copyValidMoves[i][0] = validMoves[i][0];
+            copyValidMoves[i][1] = validMoves[i][1];
+        }
+
+        for(int i=0; i<sizeCopy; i++){
+            String piece = copyValidMoves[i][1];
+            String coord = copyValidMoves[i][0];
+            //System.out.println(piece);
+            //System.out.println(coord);
+            boardLogic.tryMove(piece, coord);
+            score = alphaBetaMax(alpha, beta, depth-1);
+            if(score<=alpha){
+                for(int j = 0; j<8; j++){
+                    boardLogic.boardLogic[j] = Arrays.copyOf(boardLogicCopy[j], 8);
+                }
+                if(depth == 3) {
+                    pieceToMove = piece;
+                    coordToMove = coord;
+                }
+                return alpha;
+            }
+            if(score<beta){
+                beta = score;
+                if(depth == 3) {
+                    pieceToMove = piece;
+                    coordToMove = coord;
+                }
+            }
+            for(int j = 0; j<8; j++){
+                boardLogic.boardLogic[j] = Arrays.copyOf(boardLogicCopy[j], 8);
+            }
+        }
+        return beta;
     }
     public void getAllPossibleMoves(boolean isWhitePlaying)
     {
@@ -128,7 +212,6 @@ public class AI {
         }
         staleMate = true;
         ArrayList<String> possibleMoves = new ArrayList<String>();
-        //validMoves = null;
         String coord = "";
         String piece = "";
         String[][] moves = new String[1000][2];

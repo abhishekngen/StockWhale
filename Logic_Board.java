@@ -284,6 +284,13 @@ public class Logic_Board {
                     }
                 }
             }
+            if(row+1<8 && col-2>=0){
+                if(boardLogic[row+1][col-2] != ""){
+                    if(boardLogic[row+1][col-2].charAt(0) == 'n'){
+                        return true;
+                    }
+                }
+            }
             if (row - 1 >= 0) {
                 if (!boardLogic[row - 1][col].equals("")) {
                     if (boardLogic[row - 1][col].charAt(0) == 'k') {
@@ -476,6 +483,13 @@ public class Logic_Board {
                     }
                 }
             }
+            if(row+1<8 && col-2>=0){
+                if(boardLogic[row+1][col-2] != ""){
+                    if(boardLogic[row+1][col-2].charAt(0) == 'N'){
+                        return true;
+                    }
+                }
+            }
             if (row - 1 >= 0) {
                 if (!boardLogic[row - 1][col].equals("")) {
                     if (boardLogic[row - 1][col].charAt(0) == 'K') {
@@ -641,21 +655,11 @@ public class Logic_Board {
         int sideMultiplier = 1;
         double mobility = 0;
         boolean isWhite = true;
-        /*if(isKingInCheckMate(isWhitePlaying)){
-            if(isWhitePlaying){
-                value = 900;
-            }
-            else{
-                value = -900;
-            }
+        /*if(isKingInCheckMate(true)){
+            value = 900;
         }
-        if(isKingInCheckMate(!isWhitePlaying)){
-            if(!isWhitePlaying){
-                value = -900;
-            }
-            else{
-                value = 900;
-            }
+        else if(isKingInCheckMate(false)){
+            value = -900;
         }*/
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {

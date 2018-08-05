@@ -33,6 +33,12 @@ public class King extends Piece {
                         logic_board.revertLogicBoard();
                         addIfValid(row, col-2, isWhitePlaying);
                     }
+                    else{
+                        logic_board.revertLogicBoard();
+                    }
+                }
+                else{
+                    logic_board.revertLogicBoard();
                 }
             }
         }
@@ -46,6 +52,12 @@ public class King extends Piece {
                         logic_board.revertLogicBoard();
                         addIfValid(row, col+2, isWhitePlaying);
                     }
+                    else{
+                        logic_board.revertLogicBoard();
+                    }
+                }
+                else {
+                    logic_board.revertLogicBoard();
                 }
             }
         }
@@ -59,6 +71,12 @@ public class King extends Piece {
                         logic_board.revertLogicBoard();
                         addIfValid(row, col-2, isWhitePlaying);
                     }
+                    else{
+                        logic_board.revertLogicBoard();
+                    }
+                }
+                else{
+                    logic_board.revertLogicBoard();
                 }
             }
         }
