@@ -152,7 +152,6 @@ public class AI {
             for(int j = 0; j<8; j++){
                 boardLogic.boardLogic[j] = Arrays.copyOf(boardLogicCopy[j], 8);
             }
-            //System.out.println("yeet");
 
         }
         return alpha;

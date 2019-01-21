@@ -8,6 +8,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.ClipboardContent;
@@ -51,6 +52,14 @@ public class Main_Controller
     private boolean AIInit = true;
     private boolean isAIPlaying = false;
     private boolean isCheckMate = false;
+    private String move = "";
+    public ArrayList<String> pieces = new ArrayList<String>();
+    public ArrayList<String> moves = new ArrayList<String>();
+    public ArrayList<String> grave = new ArrayList<String>();
+    public ArrayList<String[][]> boardStates = new ArrayList<String[][]>();
+    public int undoMoveNo = 2;
+    private int boardStatesSize = 0;
+    private String[][] initialBoardState = new String[8][8];
     //Piece Object References
     Pawn pawn;
     Rook rook;
@@ -107,9 +116,17 @@ public class Main_Controller
     Logic_Board logic_board = Logic_Board.getInstance();
     AI ai = AI.getInstance();
 
+    //FXML References
+    @FXML
+    private Button undoBtn;
 
     public void initialize(URL location, ResourceBundle resources)
     {
+        //FXML Action Calls
+        undoBtn.setOnAction(this::Undo);
+
+
+        //Piece Object References
         pawn = Pawn.getInstance();
         rook = Rook.getInstance();
         knight = Knight.getInstance();
@@ -220,6 +237,7 @@ public class Main_Controller
                 }
                 pieceMoved = source;
                 originalcoord = Integer.toString(GridPane.getColumnIndex(source)) + Integer.toString(GridPane.getRowIndex(source));
+                move = Integer.toString(GridPane.getRowIndex(source)-1) + Integer.toString(GridPane.getColumnIndex(source));
                 event.consume();
             }
         };
@@ -237,6 +255,7 @@ public class Main_Controller
         EventHandler<DragEvent> dragDrop = new EventHandler<DragEvent>() {
             @Override
             public void handle(DragEvent event) {
+                System.out.println("yhyh");
                 Dragboard db = event.getDragboard();
                 if(db.hasImage()){
                     String row = Integer.toString(GridPane.getRowIndex((Node) event.getSource())-1);
@@ -319,7 +338,11 @@ public class Main_Controller
                 node.setOnDragDropped(dragDrop);
             }
         }
+        for (int i = 0; i < 8; i++) {
+            initialBoardState[i] = Arrays.copyOf(logic_board.boardLogic[i], 8);
+        }
     }
+
     public void transposeToGui(String[][] board)
     {
         for(int row = 0; row<8; row++)
@@ -356,11 +379,14 @@ public class Main_Controller
             }
         }
         if(validMove) {
+            /*moves.add(move);
+            pieces.add(imgToString.get(pieceMoved));*/
             logic_board.makeMove(imgToString.get(piece), coord, isWhitePlaying);
         }
     }
 
     public void makeMove(String pieceString, String coord) {
+        undoMoveNo = 2;
         int row = Character.getNumericValue(coord.charAt(0));
         int col = Character.getNumericValue(coord.charAt(1));
         boardGui.getChildren().remove(getKey(pieceString));
@@ -378,17 +404,59 @@ public class Main_Controller
             }
         }
         System.out.println("Evaluation: " + logic_board.evaluateBoard());
-        isWhitePlaying = !isWhitePlaying;
-        ai.getAllPossibleMoves(isWhitePlaying);
-        if(ai.staleMate && !isCheckMate){
-            System.out.println("It is Stalemate");
+        String[][] boardSave = new String[8][8];
+        for (int i = 0; i < 8; i++) {
+            boardSave[i] = Arrays.copyOf(logic_board.boardLogic[i], 8);
         }
-        isAIPlaying = !isAIPlaying;
-        if(isAIPlaying){
-            ai.AIMakeMove(isWhitePlaying);
+        if(!isWhitePlaying) {
+            boardStates.add(boardSave);
+            boardStatesSize = boardStates.size();
         }
+        if(AIInit) {
+            isWhitePlaying = !isWhitePlaying;
+            ai.getAllPossibleMoves(isWhitePlaying);
+            if (ai.staleMate && !isCheckMate) {
+                System.out.println("It is a Stalemate");
+            }
+            isAIPlaying = !isAIPlaying;
+            if (isAIPlaying) {
+                ai.AIMakeMove(isWhitePlaying);
+            }
+        }
+        AIInit = true;
+    }
 
+    //Additional GUI Functions
+    private void Undo(ActionEvent event){
+        System.out.println(boardStatesSize-undoMoveNo);
+        if(boardStatesSize-undoMoveNo>=-1) {
+            System.out.println("yeet");
+            ObservableList<Node> children = boardGui.getChildren();
+            System.out.println(boardGui.getChildren());
 
+            boardGui.getChildren().removeIf(o -> o instanceof ImageView);
 
+            String[][] newBoard = new String[8][8];
+            if(boardStatesSize-undoMoveNo >= 0) {
+                newBoard = boardStates.get(boardStatesSize - undoMoveNo);
+            }
+            else{
+                newBoard = initialBoardState;
+            }
+            if(undoMoveNo == 2 && boardStatesSize-undoMoveNo>-1){
+                boardStates.remove(boardStatesSize-1);
+            }
+            if(boardStatesSize-undoMoveNo>-1) {
+                boardStates.remove(boardStatesSize - undoMoveNo);
+            }
+            transposeToGui(newBoard);
+            for (int i = 0; i < 8; i++) {
+                logic_board.boardLogic[i] = Arrays.copyOf(newBoard[i], 8);
+            }
+            undoMoveNo++;
+            ObservableList<Node> children1 = boardGui.getChildren();
+            isWhitePlaying = true;
+
+        }
     }
 }
