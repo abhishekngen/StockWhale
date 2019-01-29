@@ -18,67 +18,90 @@ public class Bishop extends Piece {
         boolean enemyPiecePresent = false;
         int testrow = row;
         int testcol = col;
-        while(!enemyPiecePresent){
-            testrow++;
-            testcol++;
-            addIfValid(testrow, testcol, isWhitePlaying);
-            if(testrow<9 && testrow>0 && testcol>-1 && testcol<8){
-                if(logic_board.boardLogic[testrow-1][testcol]!="") {
+        for(int i = 0; i<4; i++) {
+            while (!enemyPiecePresent) {
+                if (i == 0) {
+                    testcol += 1;
+                    testrow += 1;
+                } else if (i == 1) {
+                    testcol += 1;
+                    testrow -= 1;
+                } else if (i == 2) {
+                    testcol -= 1;
+                    testrow += 1;
+                } else {
+                    testcol -= 1;
+                    testrow -= 1;
+                }
+                if (testrow > 0 && testrow < 9 && testcol > -1 && testcol < 8) {
+                    if (!(logic_board.boardLogic[testrow - 1][testcol].equals(""))) {
+                        enemyPiecePresent = true;
+                    }
+                    addIfValid(testrow, testcol, isWhitePlaying);
+                } else {
                     enemyPiecePresent = true;
                 }
             }
-            else{
-                enemyPiecePresent = true;
-            }
+            enemyPiecePresent = false;
+            testcol = col;
+            testrow = row;
         }
-        enemyPiecePresent = false;
-        testrow = row;
-        testcol = col;
-        while(!enemyPiecePresent){
-            testrow--;
-            testcol--;
-            addIfValid(testrow, testcol, isWhitePlaying);
-            if(testrow<9 && testrow>0 && testcol>-1 && testcol<8){
-                if(logic_board.boardLogic[testrow-1][testcol]!="") {
+        /*
+                addIfValid(testrow, testcol, isWhitePlaying);
+                if (testrow < 9 && testrow > 0 && testcol > -1 && testcol < 8) {
+                    if (logic_board.boardLogic[testrow - 1][testcol] != "") {
+                        enemyPiecePresent = true;
+                    }
+                } else {
                     enemyPiecePresent = true;
                 }
             }
-            else{
-                enemyPiecePresent = true;
-            }
-        }
-        enemyPiecePresent = false;
-        testrow = row;
-        testcol = col;
-        while(!enemyPiecePresent){
-            testrow++;
-            testcol--;
-            addIfValid(testrow, testcol, isWhitePlaying);
-            if(testrow<9 && testrow>0 && testcol>-1 && testcol<8){
-                if(logic_board.boardLogic[testrow-1][testcol]!="") {
+            enemyPiecePresent = false;
+            testrow = row;
+            testcol = col;
+            while (!enemyPiecePresent) {
+                testrow--;
+                testcol--;
+                addIfValid(testrow, testcol, isWhitePlaying);
+                if (testrow < 9 && testrow > 0 && testcol > -1 && testcol < 8) {
+                    if (logic_board.boardLogic[testrow - 1][testcol] != "") {
+                        enemyPiecePresent = true;
+                    }
+                } else {
                     enemyPiecePresent = true;
                 }
             }
-            else{
-                enemyPiecePresent = true;
-            }
-        }
-        enemyPiecePresent = false;
-        testrow = row;
-        testcol = col;
-        while(!enemyPiecePresent){
-            testrow--;
-            testcol++;
-            addIfValid(testrow, testcol, isWhitePlaying);
-            if(testrow<9 && testrow>0 && testcol>-1 && testcol<8){
-                if(logic_board.boardLogic[testrow-1][testcol]!="") {
+            enemyPiecePresent = false;
+            testrow = row;
+            testcol = col;
+            while (!enemyPiecePresent) {
+                testrow++;
+                testcol--;
+                addIfValid(testrow, testcol, isWhitePlaying);
+                if (testrow < 9 && testrow > 0 && testcol > -1 && testcol < 8) {
+                    if (logic_board.boardLogic[testrow - 1][testcol] != "") {
+                        enemyPiecePresent = true;
+                    }
+                } else {
                     enemyPiecePresent = true;
                 }
             }
-            else{
-                enemyPiecePresent = true;
+            enemyPiecePresent = false;
+            testrow = row;
+            testcol = col;
+            while (!enemyPiecePresent) {
+                testrow--;
+                testcol++;
+                addIfValid(testrow, testcol, isWhitePlaying);
+                if (testrow < 9 && testrow > 0 && testcol > -1 && testcol < 8) {
+                    if (logic_board.boardLogic[testrow - 1][testcol] != "") {
+                        enemyPiecePresent = true;
+                    }
+                } else {
+                    enemyPiecePresent = true;
+                }
             }
-        }
+        }*/
         return possibleMoves;
     }
 }

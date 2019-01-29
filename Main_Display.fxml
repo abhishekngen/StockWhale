@@ -6,6 +6,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="525.0" prefWidth="646.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
    <children>
@@ -68,6 +69,10 @@
          </children>
       </GridPane>
       <Button fx:id="undoBtn" layoutX="485.0" layoutY="402.0" mnemonicParsing="false" text="Undo" />
-      <Button layoutX="541.0" layoutY="402.0" mnemonicParsing="false" text="Redo" />
+      <Text layoutX="476.0" layoutY="202.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Difficulty:" wrappingWidth="63.13671875" />
+      <Button fx:id="easyBtn" layoutX="482.0" layoutY="215.0" mnemonicParsing="false" text="Easy" />
+      <Button fx:id="mediumBtn" layoutX="477.0" layoutY="250.0" mnemonicParsing="false" text="Medium" />
+      <Button fx:id="hardBtn" layoutX="481.0" layoutY="286.0" mnemonicParsing="false" text="Hard" />
+      <Text fx:id="evaltext" layoutX="482.0" layoutY="337.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Evalutation:" wrappingWidth="63.13671875" />
    </children>
 </AnchorPane>

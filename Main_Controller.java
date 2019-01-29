@@ -9,8 +9,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
@@ -20,6 +18,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.image.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 
 public class Main_Controller
     implements Initializable
@@ -36,9 +35,7 @@ public class Main_Controller
     private String coord = "0";
     private String coordgui = "0";
     private String originalcoord = "0";
-    private boolean guiMove = false;
     private ImageView pieceMoved = new ImageView();
-    private int dragDetect = 0;
     private ArrayList<String> possibleMoves = new ArrayList<String>();
     private boolean isWhitePlaying = true;
     public boolean hasRook1Moved = false;
@@ -57,7 +54,6 @@ public class Main_Controller
     public ArrayList<String> moves = new ArrayList<String>();
     public ArrayList<String> grave = new ArrayList<String>();
     public ArrayList<String[][]> boardStates = new ArrayList<String[][]>();
-    public int undoMoveNo = 2;
     private int boardStatesSize = 0;
     private String[][] initialBoardState = new String[8][8];
     //Piece Object References
@@ -119,12 +115,18 @@ public class Main_Controller
     //FXML References
     @FXML
     private Button undoBtn;
+    public Button easyBtn;
+    public Button mediumBtn;
+    public Button hardBtn;
+    public Text evaltext;
 
     public void initialize(URL location, ResourceBundle resources)
     {
         //FXML Action Calls
         undoBtn.setOnAction(this::Undo);
-
+        easyBtn.setOnAction(this::Easy);
+        mediumBtn.setOnAction(this::Medium);
+        hardBtn.setOnAction(this::Hard);
 
         //Piece Object References
         pawn = Pawn.getInstance();
@@ -255,7 +257,6 @@ public class Main_Controller
         EventHandler<DragEvent> dragDrop = new EventHandler<DragEvent>() {
             @Override
             public void handle(DragEvent event) {
-                System.out.println("yhyh");
                 Dragboard db = event.getDragboard();
                 if(db.hasImage()){
                     String row = Integer.toString(GridPane.getRowIndex((Node) event.getSource())-1);
@@ -341,6 +342,7 @@ public class Main_Controller
         for (int i = 0; i < 8; i++) {
             initialBoardState[i] = Arrays.copyOf(logic_board.boardLogic[i], 8);
         }
+        boardStates.add(initialBoardState);
     }
 
     public void transposeToGui(String[][] board)
@@ -379,14 +381,11 @@ public class Main_Controller
             }
         }
         if(validMove) {
-            /*moves.add(move);
-            pieces.add(imgToString.get(pieceMoved));*/
             logic_board.makeMove(imgToString.get(piece), coord, isWhitePlaying);
         }
     }
 
     public void makeMove(String pieceString, String coord) {
-        undoMoveNo = 2;
         int row = Character.getNumericValue(coord.charAt(0));
         int col = Character.getNumericValue(coord.charAt(1));
         boardGui.getChildren().remove(getKey(pieceString));
@@ -421,42 +420,38 @@ public class Main_Controller
             isAIPlaying = !isAIPlaying;
             if (isAIPlaying) {
                 ai.AIMakeMove(isWhitePlaying);
+                evaltext.setText("Evaluation: " + Double.toString(Math.round(logic_board.evaluateBoard())));
             }
         }
+
         AIInit = true;
     }
 
     //Additional GUI Functions
     private void Undo(ActionEvent event){
-        System.out.println(boardStatesSize-undoMoveNo);
-        if(boardStatesSize-undoMoveNo>=-1) {
-            System.out.println("yeet");
-            ObservableList<Node> children = boardGui.getChildren();
-            System.out.println(boardGui.getChildren());
-
+        if(boardStates.size()>1) {
             boardGui.getChildren().removeIf(o -> o instanceof ImageView);
-
             String[][] newBoard = new String[8][8];
-            if(boardStatesSize-undoMoveNo >= 0) {
-                newBoard = boardStates.get(boardStatesSize - undoMoveNo);
-            }
-            else{
-                newBoard = initialBoardState;
-            }
-            if(undoMoveNo == 2 && boardStatesSize-undoMoveNo>-1){
-                boardStates.remove(boardStatesSize-1);
-            }
-            if(boardStatesSize-undoMoveNo>-1) {
-                boardStates.remove(boardStatesSize - undoMoveNo);
-            }
+            newBoard = boardStates.get(boardStates.size() - 2);
+            boardStates.remove(boardStates.size() - 1);
             transposeToGui(newBoard);
             for (int i = 0; i < 8; i++) {
                 logic_board.boardLogic[i] = Arrays.copyOf(newBoard[i], 8);
             }
-            undoMoveNo++;
-            ObservableList<Node> children1 = boardGui.getChildren();
+            String[][] boardSave = new String[8][8];
+            for (int i = 0; i < 8; i++) {
+                boardSave[i] = Arrays.copyOf(logic_board.boardLogic[i], 8);
+            }
             isWhitePlaying = true;
-
         }
+    }
+    public void Easy(ActionEvent event){
+        ai.difficulty = "Easy";
+    }
+    public void Medium(ActionEvent event){
+        ai.difficulty = "Medium";
+    }
+    public void Hard(ActionEvent event){
+        ai.difficulty = "Hard";
     }
 }

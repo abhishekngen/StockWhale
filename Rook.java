@@ -16,13 +16,41 @@ public class Rook extends Piece {
         int row = Character.getNumericValue(originalcoord.charAt(1));
         int col = Character.getNumericValue(originalcoord.charAt(0));
         boolean enemyPiecePresent = false;
-        int testrow = row;
-        int testcol = col;
+        int testRow = row;
+        int testCol = col;
+        for(int i = 0; i<4; i++){
+            while(!enemyPiecePresent){
+                if(i == 0){
+                    testRow += 1;
+                }
+                else if(i == 1){
+                    testRow -= 1;
+                }
+                else if(i == 2){
+                    testCol += 1;
+                }
+                else{
+                    testCol -= 1;
+                }
+                if(testRow > 0 && testRow < 9 && testCol > -1 && testCol < 8){
+                    addIfValid(testRow, testCol, isWhitePlaying);
+                    if(!(logic_board.boardLogic[testRow - 1][testCol].equals(""))){
+                        enemyPiecePresent = true;
+                    }
+                }
+                else{
+                    enemyPiecePresent = true;
+                }
+            }
+            testCol = col;
+            testRow = row;
+            enemyPiecePresent = false;
+        }/*
         while(!enemyPiecePresent){
-            testrow+=1;
-            if(testrow<9) {
-                addIfValid(testrow, testcol, isWhitePlaying);
-                if (!(logic_board.boardLogic[testrow - 1][testcol] == "")) {
+            testRow+=1;
+            if(testRow<9) {
+                addIfValid(testRow, testCol, isWhitePlaying);
+                if (!(logic_board.boardLogic[testRow - 1][testCol] == "")) {
                     enemyPiecePresent = true;
                 }
             }
@@ -31,12 +59,12 @@ public class Rook extends Piece {
             }
         }
         enemyPiecePresent = false;
-        testrow = row;
+        testRow = row;
         while(!enemyPiecePresent){
-            testrow-=1;
-            if(testrow>0) {
-                addIfValid(testrow, testcol, isWhitePlaying);
-                if (!(logic_board.boardLogic[testrow - 1][testcol] == "")) {
+            testRow-=1;
+            if(testRow>0) {
+                addIfValid(testRow, testCol, isWhitePlaying);
+                if (!(logic_board.boardLogic[testRow - 1][testCol] == "")) {
                     enemyPiecePresent = true;
                 }
             }
@@ -45,12 +73,12 @@ public class Rook extends Piece {
             }
         }
         enemyPiecePresent = false;
-        testrow = row;
+        testRow = row;
         while(!enemyPiecePresent){
-            testcol+=1;
-            if(testcol<8) {
-                addIfValid(testrow, testcol, isWhitePlaying);
-                if (!(logic_board.boardLogic[testrow - 1][testcol] == "")) {
+            testCol+=1;
+            if(testCol<8) {
+                addIfValid(testRow, testCol, isWhitePlaying);
+                if (!(logic_board.boardLogic[testRow - 1][testCol] == "")) {
                     enemyPiecePresent = true;
                 }
             }else{
@@ -58,18 +86,18 @@ public class Rook extends Piece {
             }
         }
         enemyPiecePresent = false;
-        testcol = col;
+        testCol = col;
         while(!enemyPiecePresent){
-            testcol-=1;
-            if(testcol>-1) {
-                addIfValid(testrow, testcol, isWhitePlaying);
-                if (!(logic_board.boardLogic[testrow - 1][testcol] == "")) {
+            testCol-=1;
+            if(testCol>-1) {
+                addIfValid(testRow, testCol, isWhitePlaying);
+                if (!(logic_board.boardLogic[testRow - 1][testCol] == "")) {
                     enemyPiecePresent = true;
                 }
             }else{
                 enemyPiecePresent = true;
             }
-        }
+        }*/
         return possibleMoves;
     }
 }

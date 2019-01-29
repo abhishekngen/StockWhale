@@ -1,7 +1,5 @@
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Random;
-
 public class AI {
 
     public static AI instance;
@@ -11,7 +9,6 @@ public class AI {
         }
         return instance;
     }
-
     Logic_Board boardLogic;
     Pawn pawn;
     Rook rook;
@@ -24,6 +21,8 @@ public class AI {
     String pieceToMove = "";
     String coordToMove = "";
     public boolean staleMate = false;
+    public String difficulty ="Medium";
+    private int depthset = 3;
     public void init(){
         boardLogic = Logic_Board.getInstance();
         pawn = Pawn.getInstance();
@@ -35,79 +34,23 @@ public class AI {
     }
 
     public void AIMakeMove(boolean isWhitePlaying){
-        /*Random random = new Random();
-        if(possibleMoves.size()!=0){
-            int randnum = random.nextInt(possibleMoves.size());
-            String move = possibleMoves.get(randnum);
-            String piece = move.substring(0, 2);
-            String coord = move.substring(2);
-            boardLogic.makeMove(piece, boardLogic.coordGuiToLogic(coord, true), isWhitePlaying);
-        }
-        else{
-            System.out.println("L");
-        }*/
-        /*String pos = null;
-        Random random = new Random();
-        String piece = null;
-        int randnum1 = random.nextInt(8);
-        if(randnum1 == 0) {
-            piece = "p1";
-        }
-        else if(randnum1 == 1){
-            piece = "p2";
-        }
-        else if(randnum1 == 2){
-            piece = "p3";
-        }
-        else if(randnum1 == 3){
-            piece = "p4";
-        }
-        else if(randnum1 == 4){
-            piece = "p5";
-        }
-        else if(randnum1 == 5){
-            piece = "p6";
-        }
-        else if(randnum1 == 6){
-            piece = "p7";
-        }
-        else if(randnum1 == 7){
-            piece = "p8";
-        }
-        pos = boardLogic.getPos(piece);
-        if(pos!=null){
-            pos = boardLogic.coordGuiToLogic(pos, false);
-            pos = boardLogic.reverse(pos);
-            ArrayList<String> possibleMovesPawn = new ArrayList<String>();
-            possibleMovesPawn = pawn.getPossibleMoves(pos, isWhitePlaying);
-            if(possibleMovesPawn.size()!=0) {
-                int randnum = random.nextInt(possibleMovesPawn.size());
-                String move = possibleMovesPawn.get(randnum);
-                boardLogic.makeMove(piece, boardLogic.coordGuiToLogic(move, true), false);
-            }
-            else{
-                System.out.println("L2");
-            }
-        }
-        else{
-            System.out.println("L1");
-        }*/
-        /*getAllPossibleMoves(isWhitePlaying);
-        Random random = new Random();
-        if(size!=0) {
-            int randnum = random.nextInt(size);
-            String piece = validMoves[randnum][1];
-            String coord = validMoves[randnum][0];
-            boardLogic.makeMove(piece, coord, false);
-        }*/
         pieceToMove = "";
         coordToMove = "";
-        double moveScore = alphaBetaMin(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 3);
+        if(difficulty == "Easy") {
+            depthset = 2;
+        }
+        else if(difficulty == "Medium") {
+            depthset = 3;
+        }
+        else if(difficulty == "Hard") {
+            depthset = 4;
+        }
+        double moveScore = alphaBetaMin(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, depthset);
         boardLogic.makeMove(pieceToMove, coordToMove, isWhitePlaying);
     }
 
     //Mini-Max!
-    public double alphaBetaMax(double alpha, double beta, int depth){
+    private double alphaBetaMax(double alpha, double beta, int depth){
         double score = 0;
         if(depth == 0){
             return boardLogic.evaluateBoard();
@@ -126,17 +69,13 @@ public class AI {
         for(int i=0; i<sizeCopy; i++){
             String piece = copyValidMoves[i][1];
             String coord = copyValidMoves[i][0];
-            /*System.out.println(piece);
-            System.out.println(copyValidMoves[i+1][1]);
-            System.out.println(coord);
-            System.out.println(copyValidMoves[i+1][0]);*/
             boardLogic.tryMove(piece, coord);
             score = alphaBetaMin(alpha, beta, depth-1);
             if(score>=beta){
                 for(int j = 0; j<8; j++){
                     boardLogic.boardLogic[j] = Arrays.copyOf(boardLogicCopy[j], 8);
                 }
-                if(depth == 3) {
+                if(depth == depthset) {
                     pieceToMove = piece;
                     coordToMove = coord;
                 }
@@ -144,7 +83,7 @@ public class AI {
             }
             if(score>alpha){
                 alpha = score;
-                if(depth == 3) {
+                if(depth == depthset) {
                     pieceToMove = piece;
                     coordToMove = coord;
                 }
@@ -176,15 +115,13 @@ public class AI {
         for(int i=0; i<sizeCopy; i++){
             String piece = copyValidMoves[i][1];
             String coord = copyValidMoves[i][0];
-            //System.out.println(piece);
-            //System.out.println(coord);
             boardLogic.tryMove(piece, coord);
             score = alphaBetaMax(alpha, beta, depth-1);
             if(score<=alpha){
                 for(int j = 0; j<8; j++){
                     boardLogic.boardLogic[j] = Arrays.copyOf(boardLogicCopy[j], 8);
                 }
-                if(depth == 3) {
+                if(depth == depthset) {
                     pieceToMove = piece;
                     coordToMove = coord;
                 }
@@ -192,7 +129,7 @@ public class AI {
             }
             if(score<beta){
                 beta = score;
-                if(depth == 3) {
+                if(depth == depthset) {
                     pieceToMove = piece;
                     coordToMove = coord;
                 }

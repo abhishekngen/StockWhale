@@ -14,7 +14,7 @@ public class Logic_Board {
     private static Logic_Board instance = null;
     private String[][] savedBoardLogic = new String[8][8];
     private ArrayList<String> possibleMoves = new ArrayList<String>();
-    Pawn pawn;
+    private Pawn pawn;
     Rook rook;
     Knight knight;
     Bishop bishop;
@@ -122,9 +122,7 @@ public class Logic_Board {
                 }
             }
         }
-
         return coord;
-
     }
 
     public void revertLogicBoard() {
@@ -610,8 +608,6 @@ public class Logic_Board {
         }
 
         return true;
-
-
     }
 
     public ArrayList<String> arrayGuiToLogic(ArrayList<String> array, boolean guiToLogic) {
@@ -627,9 +623,7 @@ public class Logic_Board {
             newcoord = Integer.toString(row) + Integer.toString(col);
             array.set(i, newcoord);
         }
-
         return array;
-
     }
 
     public String coordGuiToLogic(String coord, boolean guiToLogic) {
@@ -701,12 +695,14 @@ public class Logic_Board {
                 }
             }
         }
-        value = Math.round(value * 1000.0) / 1000.0;
-        if(Main_Display.gui.hasBlackCastled){
-            value-=1.5;
-        }
-        if(Main_Display.gui.hasWhiteCastled){
-            value+=1.5;
+        //value = Math.round(value * 1000.0) / 1000.0;
+        if(AI.getInstance().difficulty == "Hard") {
+            if (Main_Display.gui.hasBlackCastled) {
+                value -= 1.5;
+            }
+            if (Main_Display.gui.hasWhiteCastled) {
+                value += 1.5;
+            }
         }
         return value;
     }
