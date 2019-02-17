@@ -6,11 +6,12 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="525.0" prefWidth="646.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <GridPane fx:id="boardGui" gridLinesVisible="true" layoutX="14.0" layoutY="61.0" prefHeight="450.0" prefWidth="450.0">
+      <GridPane fx:id="boardGui" gridLinesVisible="true" layoutX="25.0" layoutY="50.0" prefHeight="450.0" prefWidth="450.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -68,11 +69,98 @@
 
          </children>
       </GridPane>
-      <Button fx:id="undoBtn" layoutX="485.0" layoutY="402.0" mnemonicParsing="false" text="Undo" />
-      <Text layoutX="476.0" layoutY="202.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Difficulty:" wrappingWidth="63.13671875" />
-      <Button fx:id="easyBtn" layoutX="482.0" layoutY="215.0" mnemonicParsing="false" text="Easy" />
-      <Button fx:id="mediumBtn" layoutX="477.0" layoutY="250.0" mnemonicParsing="false" text="Medium" />
-      <Button fx:id="hardBtn" layoutX="481.0" layoutY="286.0" mnemonicParsing="false" text="Hard" />
-      <Text fx:id="evaltext" layoutX="482.0" layoutY="337.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Evalutation:" wrappingWidth="63.13671875" />
+      <Button fx:id="undoBtn" layoutX="492.0" layoutY="438.0" mnemonicParsing="false" text="Undo" />
+      <Text layoutX="483.0" layoutY="197.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Difficulty:" wrappingWidth="63.13671875" />
+      <Button fx:id="easyBtn" layoutX="489.0" layoutY="210.0" mnemonicParsing="false" text="Easy" />
+      <Button fx:id="mediumBtn" layoutX="484.0" layoutY="245.0" mnemonicParsing="false" text="Medium" />
+      <Button fx:id="hardBtn" layoutX="488.0" layoutY="281.0" mnemonicParsing="false" text="Hard" />
+      <Text fx:id="evalWhiteText" layoutX="485.0" layoutY="333.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Evaluation after last move by White:" wrappingWidth="156.13671875" />
+      <Text fx:id="evalBlackText" layoutX="485.0" layoutY="367.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Evaluation after last move by Black:" wrappingWidth="156.13671875" />
+      <Text fx:id="evalWinningText" layoutX="482.0" layoutY="403.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="156.13671875" />
+      <Button fx:id="gameModeBtn" layoutX="196.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="136.0" text="AI Mode" />
+      <Button fx:id="recommendMoveBtn" layoutX="485.0" layoutY="33.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="136.0" text="Recommend Move" />
+      <Text fx:id="pieceToMoveText" layoutX="485.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Piece to Move: " wrappingWidth="156.13671875" />
+      <Text fx:id="rowToMoveToText" layoutX="485.0" layoutY="99.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Row to Move to: " wrappingWidth="156.13671875" />
+      <Text fx:id="columnToMoveToText" layoutX="485.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Column to Move to: " wrappingWidth="156.13671875" />
+      <Text layoutX="11.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="11.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="11.0" layoutY="198.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="11.0" layoutY="250.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="11.0" layoutY="311.0" strokeType="OUTSIDE" strokeWidth="0.0" text="4">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="11.0" layoutY="369.0" strokeType="OUTSIDE" strokeWidth="0.0" text="5">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="11.0" layoutY="421.0" strokeType="OUTSIDE" strokeWidth="0.0" text="6">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="11.0" layoutY="478.0" strokeType="OUTSIDE" strokeWidth="0.0" text="7">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="47.0" layoutY="516.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="106.0" layoutY="515.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="162.0" layoutY="515.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="218.0" layoutY="515.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="273.0" layoutY="515.0" strokeType="OUTSIDE" strokeWidth="0.0" text="4">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="328.0" layoutY="515.0" strokeType="OUTSIDE" strokeWidth="0.0" text="5">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="387.0" layoutY="515.0" strokeType="OUTSIDE" strokeWidth="0.0" text="6">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="444.0" layoutY="515.0" strokeType="OUTSIDE" strokeWidth="0.0" text="7">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>

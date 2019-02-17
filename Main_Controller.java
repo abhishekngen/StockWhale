@@ -1,7 +1,6 @@
 
 import java.net.URL;
 import java.util.*;
-
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -23,21 +22,15 @@ import javafx.scene.text.Text;
 public class Main_Controller
     implements Initializable
 {
-    //GUI Elements
-    public GridPane boardGui;
-    //Rectangles
-    public Rectangle rect1;
-    public Rectangle rect2;
-    //HashMaps
-    public HashMap<ImageView, String> imgToString = new HashMap<ImageView, String>();
-
-    //Misc
-    private String coord = "0";
-    private String coordgui = "0";
-    private String originalcoord = "0";
+    //Global Movement Variables
+    private String coord;
+    private String coordgui;
+    private String originalcoord;
     private ImageView pieceMoved = new ImageView();
     private ArrayList<String> possibleMoves = new ArrayList<String>();
     private boolean isWhitePlaying = true;
+
+    //Castling Booleans
     public boolean hasRook1Moved = false;
     public boolean hasRook2Moved = false;
     public boolean hasRook3Moved = false;
@@ -46,97 +39,99 @@ public class Main_Controller
     public boolean hasKing2Moved = false;
     public boolean hasBlackCastled = false;
     public boolean hasWhiteCastled = false;
+
+    //Game Mode + State Booleans
     private boolean AIInit = true;
     private boolean isAIPlaying = false;
     private boolean isCheckMate = false;
-    private String move = "";
-    public ArrayList<String> pieces = new ArrayList<String>();
-    public ArrayList<String> moves = new ArrayList<String>();
-    public ArrayList<String> grave = new ArrayList<String>();
-    public ArrayList<String[][]> boardStates = new ArrayList<String[][]>();
-    private int boardStatesSize = 0;
-    private String[][] initialBoardState = new String[8][8];
-    //Piece Object References
-    Pawn pawn;
-    Rook rook;
-    Bishop bishop;
-    Knight knight;
-    Queen queen;
-    King king;
-    //ImageView Initialisation
-    ImageView pawnwhite1 = new ImageView(new Image("/Images/PawnWhite.png"));
-    ImageView pawnwhite2 = new ImageView(new Image("/Images/PawnWhite.png"));
-    ImageView pawnwhite3 = new ImageView(new Image("/Images/PawnWhite.png"));
-    ImageView pawnwhite4 = new ImageView(new Image("/Images/PawnWhite.png"));
-    ImageView pawnwhite5 = new ImageView(new Image("/Images/PawnWhite.png"));
-    ImageView pawnwhite6 = new ImageView(new Image("/Images/PawnWhite.png"));
-    ImageView pawnwhite7 = new ImageView(new Image("/Images/PawnWhite.png"));
-    ImageView pawnwhite8 = new ImageView(new Image("/Images/PawnWhite.png"));
+    private boolean isStaleMate = false;
+    private boolean gameStarted = false;
 
-    ImageView pawnblack1 = new ImageView(new Image("/Images/PawnBlack.png"));
-    ImageView pawnblack2 = new ImageView(new Image("/Images/PawnBlack.png"));
-    ImageView pawnblack3 = new ImageView(new Image("/Images/PawnBlack.png"));
-    ImageView pawnblack4 = new ImageView(new Image("/Images/PawnBlack.png"));
-    ImageView pawnblack5 = new ImageView(new Image("/Images/PawnBlack.png"));
-    ImageView pawnblack6 = new ImageView(new Image("/Images/PawnBlack.png"));
-    ImageView pawnblack7 = new ImageView(new Image("/Images/PawnBlack.png"));
-    ImageView pawnblack8 = new ImageView(new Image("/Images/PawnBlack.png"));
-
-    ImageView rookwhite1 = new ImageView(new Image("/Images/RookWhite.png"));
-    ImageView rookwhite2 = new ImageView(new Image("/Images/RookWhite.png"));
-
-    ImageView rookblack1 = new ImageView(new Image("/Images/RookBlack.png"));
-    ImageView rookblack2 = new ImageView(new Image("/Images/RookBlack.png"));
-
-    ImageView knightwhite1 = new ImageView(new Image("/Images/KnightWhite.png"));
-    ImageView knightwhite2 = new ImageView(new Image("/Images/KnightWhite.png"));
-
-    ImageView knightblack1 = new ImageView(new Image("/Images/KnightBlack.png"));
-    ImageView knightblack2 = new ImageView(new Image("/Images/KnightBlack.png"));
-
-    ImageView bishopwhite1 = new ImageView(new Image("/Images/BishopWhite.png"));
-    ImageView bishopwhite2 = new ImageView(new Image("/Images/BishopWhite.png"));
-
-    ImageView bishopblack1 = new ImageView(new Image("/Images/BishopBlack.png"));
-    ImageView bishopblack2 = new ImageView(new Image("/Images/BishopBlack.png"));
-
-    ImageView queenwhite = new ImageView(new Image("/Images/QueenWhite.png"));
-
-    ImageView queenblack = new ImageView(new Image("/Images/QueenBlack.png"));
-
-    ImageView kingwhite = new ImageView(new Image("/Images/KingWhite.png"));
-
-    ImageView kingblack = new ImageView(new Image("/Images/KingBlack.png"));
+    //Global Data Structures
+    private stack boardStatesStack = new stack();
+    private Hashtable<ImageView, String> imgToString = new Hashtable<ImageView, String>();
 
     //Object References
-    Logic_Board logic_board = Logic_Board.getInstance();
-    AI ai = AI.getInstance();
+    private Logic_Board logic_board;
+    private AI ai;
+    private Pawn pawn;
+    private Rook rook;
+    private Bishop bishop;
+    private Knight knight;
+    private Queen queen;
+    private King king;
 
-    //FXML References
+    //ImageView Initialisation
+    private ImageView pawnwhite1 = new ImageView(new Image("/Images/PawnWhite.png"));
+    private ImageView pawnwhite2 = new ImageView(new Image("/Images/PawnWhite.png"));
+    private ImageView pawnwhite3 = new ImageView(new Image("/Images/PawnWhite.png"));
+    private ImageView pawnwhite4 = new ImageView(new Image("/Images/PawnWhite.png"));
+    private ImageView pawnwhite5 = new ImageView(new Image("/Images/PawnWhite.png"));
+    private ImageView pawnwhite6 = new ImageView(new Image("/Images/PawnWhite.png"));
+    private ImageView pawnwhite7 = new ImageView(new Image("/Images/PawnWhite.png"));
+    private ImageView pawnwhite8 = new ImageView(new Image("/Images/PawnWhite.png"));
+    private ImageView pawnblack1 = new ImageView(new Image("/Images/PawnBlack.png"));
+    private ImageView pawnblack2 = new ImageView(new Image("/Images/PawnBlack.png"));
+    private ImageView pawnblack3 = new ImageView(new Image("/Images/PawnBlack.png"));
+    private ImageView pawnblack4 = new ImageView(new Image("/Images/PawnBlack.png"));
+    private ImageView pawnblack5 = new ImageView(new Image("/Images/PawnBlack.png"));
+    private ImageView pawnblack6 = new ImageView(new Image("/Images/PawnBlack.png"));
+    private ImageView pawnblack7 = new ImageView(new Image("/Images/PawnBlack.png"));
+    private ImageView pawnblack8 = new ImageView(new Image("/Images/PawnBlack.png"));
+    private ImageView rookwhite1 = new ImageView(new Image("/Images/RookWhite.png"));
+    private ImageView rookwhite2 = new ImageView(new Image("/Images/RookWhite.png"));
+    private ImageView rookblack1 = new ImageView(new Image("/Images/RookBlack.png"));
+    private ImageView rookblack2 = new ImageView(new Image("/Images/RookBlack.png"));
+    private ImageView knightwhite1 = new ImageView(new Image("/Images/KnightWhite.png"));
+    private ImageView knightwhite2 = new ImageView(new Image("/Images/KnightWhite.png"));
+    private ImageView knightblack1 = new ImageView(new Image("/Images/KnightBlack.png"));
+    private ImageView knightblack2 = new ImageView(new Image("/Images/KnightBlack.png"));
+    private ImageView bishopwhite1 = new ImageView(new Image("/Images/BishopWhite.png"));
+    private ImageView bishopwhite2 = new ImageView(new Image("/Images/BishopWhite.png"));
+    private ImageView bishopblack1 = new ImageView(new Image("/Images/BishopBlack.png"));
+    private ImageView bishopblack2 = new ImageView(new Image("/Images/BishopBlack.png"));
+    private ImageView queenwhite = new ImageView(new Image("/Images/QueenWhite.png"));
+    private ImageView queenblack = new ImageView(new Image("/Images/QueenBlack.png"));
+    private ImageView kingwhite = new ImageView(new Image("/Images/KingWhite.png"));
+    private ImageView kingblack = new ImageView(new Image("/Images/KingBlack.png"));
+
+    //FXML References - must be public
     @FXML
-    private Button undoBtn;
+    public Button undoBtn;
     public Button easyBtn;
     public Button mediumBtn;
     public Button hardBtn;
-    public Text evaltext;
+    public Text evalWhiteText;
+    public Text evalBlackText;
+    public Text evalWinningText;
+    public Button recommendMoveBtn;
+    public Text pieceToMoveText;
+    public Text rowToMoveToText;
+    public Text columnToMoveToText;
+    public GridPane boardGui;
+    public Button gameModeBtn;
 
-    public void initialize(URL location, ResourceBundle resources)
+    public void initialize(URL location, ResourceBundle resources) //Implemented from Initialization class
     {
-        //FXML Action Calls
+        //FXML Action Calls - sets function called upon button press of each button
         undoBtn.setOnAction(this::Undo);
         easyBtn.setOnAction(this::Easy);
         mediumBtn.setOnAction(this::Medium);
         hardBtn.setOnAction(this::Hard);
+        gameModeBtn.setOnAction(this::changeGameMode);
+        recommendMoveBtn.setOnAction(this::recommendMove);
 
-        //Piece Object References
-        pawn = Pawn.getInstance();
-        rook = Rook.getInstance();
-        knight = Knight.getInstance();
-        bishop = Bishop.getInstance();
-        queen = Queen.getInstance();
-        king = King.getInstance();
-        ai.init();
-        //Image Sizing
+        //Object Instantiations
+        pawn = new Pawn();
+        bishop = new Bishop();
+        knight = new Knight();
+        rook = new Rook();
+        queen = new Queen();
+        king = new King();
+        logic_board = Logic_Board.getInstance(); //Singleton
+        ai = AI.getInstance(); //Singleton
+
+        //Image Sizing for GUI Chess Board
         pawnblack1.setFitWidth(60);
         pawnblack1.setFitHeight(58);
         pawnblack2.setFitHeight(58);
@@ -190,10 +185,7 @@ public class Main_Controller
         kingwhite.setFitHeight(60);
         kingwhite.setFitWidth(58);
 
-        //Arranging pieces
-
-
-        //HashMap Generation
+        //HashTable Generation
         imgToString.put(pawnblack1, "p1");
         imgToString.put(pawnblack2, "p2");
         imgToString.put(pawnblack3, "p3");
@@ -226,50 +218,60 @@ public class Main_Controller
         imgToString.put(queenwhite, "Q");
         imgToString.put(kingblack, "k");
         imgToString.put(kingwhite, "K");
+
+        //Calling methods to instantiate objects in AI and Logic_Board classes
+        ai.init();
         logic_board.init();
-        EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() {
+
+        //Drag and Drop code
+        EventHandler<MouseEvent> eventHandler = new EventHandler<MouseEvent>() { //Set to each ImageView piece sprite and called upon when sprite is clicked upon by mouse
+
             @Override
             public void handle(MouseEvent event) {
-                ImageView source = (ImageView)event.getSource();
-                if(!isAIPlaying) {
-                    Dragboard db = source.startDragAndDrop(TransferMode.ANY);
-                    ClipboardContent cb = new ClipboardContent();
-                    cb.putImage(source.getImage());
-                    db.setContent(cb);
-                }
-                pieceMoved = source;
-                originalcoord = Integer.toString(GridPane.getColumnIndex(source)) + Integer.toString(GridPane.getRowIndex(source));
-                move = Integer.toString(GridPane.getRowIndex(source)-1) + Integer.toString(GridPane.getColumnIndex(source));
-                event.consume();
-            }
-        };
-        EventHandler<DragEvent> dragOver = new EventHandler<DragEvent>() {
-            @Override
-            public void handle(DragEvent event) {
-                Dragboard db = event.getDragboard();
-                if(db.hasImage()){
-                    event.acceptTransferModes(TransferMode.MOVE);
-                }
+                ImageView source = (ImageView)event.getSource(); //Calls upon source that triggered Mouse-event - the ImageView sprite
 
+                if(!isAIPlaying) { //Prevents player making a move while AI is calculating and playing move
+                    Dragboard db = source.startDragAndDrop(TransferMode.ANY); //Starts a new Dragboard instance for control of this drag-and-drop
+                    ClipboardContent cb = new ClipboardContent();
+                    cb.putImage(source.getImage()); //Carries GUI Object that is being dragged and dropped
+                    db.setContent(cb); //Clipboard instance copied into Dragboard
+                }
+                pieceMoved = source; //Holds ImageView copy of piece
+                originalcoord = Integer.toString(GridPane.getColumnIndex(source)) + Integer.toString(GridPane.getRowIndex(source)); //Holds concatenated string form of piece's original coordinates
                 event.consume();
             }
         };
-        EventHandler<DragEvent> dragDrop = new EventHandler<DragEvent>() {
+
+        EventHandler<DragEvent> dragOver = new EventHandler<DragEvent>() { //Set to each square on GUI chess board and called upon when an object is dragged over it
+
             @Override
             public void handle(DragEvent event) {
-                Dragboard db = event.getDragboard();
+                Dragboard db = event.getDragboard(); //Gets Dragboard instance of object being dragged over
                 if(db.hasImage()){
-                    String row = Integer.toString(GridPane.getRowIndex((Node) event.getSource())-1);
-                    String guirow = Integer.toString(GridPane.getRowIndex((Node) event.getSource()));
-                    String col = Integer.toString(GridPane.getColumnIndex((Node)event.getSource()));
-                    coord = row+col;
-                    coordgui = guirow + col;
+                    event.acceptTransferModes(TransferMode.MOVE); //Allows Dragboard instance to be dragged over - required for dropping object
+                }
+                event.consume();
+            }
+        };
+
+        EventHandler<DragEvent> dragDrop = new EventHandler<DragEvent>() { //Set to each square on GUI chess board and called upon when a dragged object is dropped on it
+
+            @Override
+            public void handle(DragEvent event) {
+                Dragboard db = event.getDragboard(); //Gets Dragboard instance of object being dropped
+                if(db.hasImage()){
+                    String row = Integer.toString(GridPane.getRowIndex((Node) event.getSource())-1); //Gets logical array row of square object being dropped into - decremented by 1 as GUI GridPane row = array row + 1
+                    String guirow = Integer.toString(GridPane.getRowIndex((Node) event.getSource())); //Gets GUI row of square object is being dropped into
+                    String col = Integer.toString(GridPane.getColumnIndex((Node)event.getSource())); //Gets column of square object is being dropped into (same for array and gridpane)
+                    coord = row+col; //concatenated coordinates for logical array
+                    coordgui = guirow + col; //concatenated coordinates for GUI gridpane
                     event.setDropCompleted(true);
                 }
                 else {
                     event.setDropCompleted(false);
                 }
                 possibleMoves.clear();
+                //Checks first character of piece being moved by obtaining string value from ImageView using the imgToString hashtable, then obtains list of possible moves by calling upon the appropriate piece type class
                 if(isWhitePlaying) {
                     if (imgToString.get(pieceMoved).charAt(0) == 'P') {
                         possibleMoves = pawn.getPossibleMoves(originalcoord, isWhitePlaying);
@@ -310,148 +312,242 @@ public class Main_Controller
                         possibleMoves = king.getPossibleMoves(originalcoord, isWhitePlaying);
                     }
                 }
-                possibleMoves = logic_board.filterMoves(imgToString.get(pieceMoved), possibleMoves, isWhitePlaying);
+                possibleMoves = logic_board.filterMoves(imgToString.get(pieceMoved), possibleMoves, isWhitePlaying); //filterMoves() removes all moves that result in the side's king entering check, which is invalid
                 processMove(pieceMoved, coordgui);
                 event.consume();
             }
         };
 
-        //Transpose logic board with initial setup
+        //Generate GUI Chess Board
         for(int row = 1; row<9; row++){
             for(int c = 0; c<8; c++){
-                Rectangle r = new Rectangle();
+                Rectangle r = new Rectangle(); //Dynamically generates each Rectangle object for the board squares/tiles
                 r.setFill(Color.TRANSPARENT);
                 r.setHeight(58);
                 r.setWidth(57);
                 boardGui.add(r, c, row);
-                r.setOnDragOver(dragOver);
-                r.setOnDragDropped(dragDrop);
+                r.setOnDragOver(dragOver); //Adds dragOver event handler functionality
+                r.setOnDragDropped(dragDrop); //Adds dragDrop event handler functionality
             }
         }
-        transposeToGui(logic_board.boardLogic);
-        ObservableList<Node> children = boardGui.getChildren();
+        transposeToGui(logic_board.logicBoard); //Calls upon method to transpose piece positions in logical board array to GUI gridpane
+        ObservableList<Node> children = boardGui.getChildren(); //Gets Node List of all nodes (data items) in gridpane, including ImageViews and Rectangles
         for(Node node: children)
         {
-            if(node instanceof ImageView)
+            if(node instanceof ImageView) //If node is an ImageView (piece sprite)
             {
-                node.setOnDragDetected(eventHandler);
-                node.setOnDragOver(dragOver);
-                node.setOnDragDropped(dragDrop);
+                node.setOnDragDetected(eventHandler); //Adds mouse click detection for detecting start of drag (as defined above)
+                node.setOnDragOver(dragOver); //Adds dragOver event handler functionality
+                node.setOnDragDropped(dragDrop); //Adds dragDrop event handler functionality
             }
         }
+        String[][] initialBoardState = new String[8][8];
         for (int i = 0; i < 8; i++) {
-            initialBoardState[i] = Arrays.copyOf(logic_board.boardLogic[i], 8);
+            initialBoardState[i] = Arrays.copyOf(logic_board.logicBoard[i], 8); //Copies starting state of board array
         }
-        boardStates.add(initialBoardState);
+        boardStatesStack.push(initialBoardState); //Pushes starting board state onto stack (for undo functionality)
     }
 
-    public void transposeToGui(String[][] board)
+    private void transposeToGui(String[][] board)
     {
         for(int row = 0; row<8; row++)
         {
             for(int col = 0; col<8; col++)
             {
-                if(board[row][col] != "")
+                if(board[row][col] != "") //If array element is not empty and hence contains a piece
                 {
-                    boardGui.add(getKey(board[row][col]), col, row+1);
+                    boardGui.add(getKey(board[row][col]), col, row+1); //Adds ImageView of piece string to GUI GridPane
                 }
             }
         }
     }
-    public ImageView getKey(String logicPiece)
+
+    public ImageView getKey(String pieceStringValue)
     {
         ImageView key = new ImageView();
+        //Generates a set of all the entries in the imgToString HashTable, and then iterates through each entry
         for(Map.Entry entry: imgToString.entrySet())
         {
-            if(logicPiece.equals(entry.getValue()))
+            if(pieceStringValue.equals(entry.getValue())) //If associated data item stored in HashTable matches the piece string value
             {
-                key = (ImageView) entry.getKey();
+                key = (ImageView) entry.getKey(); //Obtain the key object from the entry and cast as an ImageView
                 break;
             }
         }
         return key;
     }
-    public void processMove(ImageView piece, String coordgui){
+
+    private void processMove(ImageView piece, String coordgui){
         //Checks validity of move then converts onto logicboard
         boolean validMove = false;
-        for(String move: possibleMoves){
+        for(String move: possibleMoves){ //Iterates through list of all the valid possible squares the piece being moved can move to
+
+            //If coordinates of square matches the coordinates of the square the user is attempting to move the piece to, the move is declared valid
             if(move.equals(coordgui)){
                 validMove = true;
-                break;
+                break; //Breaks loop once move is found to be valid
             }
         }
         if(validMove) {
+            gameStarted = true; //Declares game to have started, which is used to prevent game mode being changed after game has started
+
             logic_board.makeMove(imgToString.get(piece), coord, isWhitePlaying);
         }
     }
 
     public void makeMove(String pieceString, String coord) {
+
+        //Coordinates are held as concatenated string with first character being the row, and second being the column, hence these are obtained first:
         int row = Character.getNumericValue(coord.charAt(0));
         int col = Character.getNumericValue(coord.charAt(1));
-        boardGui.getChildren().remove(getKey(pieceString));
-        row++;
-        boardGui.add(getKey(pieceString), col, row);
-        if(logic_board.isKingInCheck(!isWhitePlaying)){
-            if(logic_board.isKingInCheckMate(isWhitePlaying)){
+
+        boardGui.getChildren().remove(getKey(pieceString)); //Removes ImageView of piece being moved from GUI GridPane
+        row++; //Row values in GridPane are 1 higher than array row values
+        boardGui.add(getKey(pieceString), col, row); //Places ImageView of piece being moved into new cell (that represents the square)
+
+        if(logic_board.isKingInCheck(!isWhitePlaying)){ //Checks if opposing side is in check
+            if(logic_board.isKingInCheckMate(isWhitePlaying)){ //Checks if opposing side is in checkmate
                 if(isWhitePlaying){
-                    System.out.println("Black is in checkmate. White wins!");
+                    evalWinningText.setText("Black is in checkmate. White wins!"); //Declares on GUI White wins
                 }
                 else{
-                    System.out.println("White is in checkmate. Black wins!");
+                    evalWinningText.setText("White is in checkmate. Black wins!"); //Declares on GUI Black wins
+
                 }
+                //Resets GUI board state evaluation text if checkmate occurs
+                evalWhiteText.setText("Evaluation after last move by White: ");
+                evalBlackText.setText("Evaluation after last move by Black: ");
                 isCheckMate = true;
             }
         }
-        System.out.println("Evaluation: " + logic_board.evaluateBoard());
-        String[][] boardSave = new String[8][8];
-        for (int i = 0; i < 8; i++) {
-            boardSave[i] = Arrays.copyOf(logic_board.boardLogic[i], 8);
-        }
-        if(!isWhitePlaying) {
-            boardStates.add(boardSave);
-            boardStatesSize = boardStates.size();
-        }
-        if(AIInit) {
-            isWhitePlaying = !isWhitePlaying;
-            ai.getAllPossibleMoves(isWhitePlaying);
-            if (ai.staleMate && !isCheckMate) {
-                System.out.println("It is a Stalemate");
-            }
-            isAIPlaying = !isAIPlaying;
-            if (isAIPlaying) {
-                ai.AIMakeMove(isWhitePlaying);
-                evaltext.setText("Evaluation: " + Double.toString(Math.round(logic_board.evaluateBoard())));
+        if(!isCheckMate){
+            ai.getAllPossibleMoves(!isWhitePlaying); //Generates all possible moves in current board state, and if there are none and checkmate is false, stalemate variable in AI class becomes true as there is stalemate
+            isStaleMate = ai.getStalemateValue();
+            if(isStaleMate){
+                evalWinningText.setText("Stalemate - it is a tie!"); //Declares stalemate on GUI
             }
         }
 
-        AIInit = true;
+        //If no checkmate or stalemate has occurred, evaluation of board state can be calculated and displayed
+        if(!isCheckMate && !isStaleMate) {
+            double currBoardEvaluation = logic_board.evaluateBoard(); //Obtains evaluation value of current board state
+            currBoardEvaluation = Math.round(currBoardEvaluation*10)/10.0; //Rounds evaluation value to 1d.p. for GUI display
+
+            //Displays two evaluation values - one for last move of white, and one for last move of black
+            if(isWhitePlaying){
+                evalWhiteText.setText("Evaluation after last move by White: " + Double.toString(currBoardEvaluation));
+            }
+            else{
+                evalBlackText.setText("Evaluation after last move by Black: " + Double.toString(currBoardEvaluation));
+            }
+
+            //Evaluation value is positive if white is advantageous and negative if black is advantageous so that it works for the minimax algorithm - hence the sign of the value is checked to display to the user which side is currently winning
+
+            if (currBoardEvaluation > 0) {
+                evalWinningText.setText("White is currently winning");
+            } else if (currBoardEvaluation < 0) {
+                evalWinningText.setText("Black is currently winning");
+            } else if(currBoardEvaluation == 0){
+                evalWinningText.setText("Both sides are currently tied");
+            }
+        }
+
+        String[][] boardSave = new String[8][8];
+        //Copies current board state into another array
+        for (int i = 0; i < 8; i++) {
+            boardSave[i] = Arrays.copyOf(logic_board.logicBoard[i], 8);
+        }
+
+        //Pushes board state onto boardStatesStack for use with undo operation
+        if(!isWhitePlaying && AIInit) { //If AI is playing, board state pushed onto stack only after AI moves
+            boardStatesStack.push(boardSave);
+        }
+
+        if(!AIInit){ //If AI is not playing, board state pushed onto stack after every move done by both players
+            boardStatesStack.push(boardSave);
+        }
+
+        isWhitePlaying = !isWhitePlaying; //Toggles isWhitePlaying to reflect the new side that is playing on the next move
+
+        if(AIInit) { //If playing in AI
+            isAIPlaying = !isAIPlaying; //Allows user and AI to take turns
+            if (isAIPlaying) { //If AI's turn
+                ai.getAllPossibleMoves(isWhitePlaying);
+                ai.AIMakeMove(isWhitePlaying); //AI makes move
+            }
+        }
     }
 
     //Additional GUI Functions
     private void Undo(ActionEvent event){
-        if(boardStates.size()>1) {
-            boardGui.getChildren().removeIf(o -> o instanceof ImageView);
-            String[][] newBoard = new String[8][8];
-            newBoard = boardStates.get(boardStates.size() - 2);
-            boardStates.remove(boardStates.size() - 1);
-            transposeToGui(newBoard);
-            for (int i = 0; i < 8; i++) {
-                logic_board.boardLogic[i] = Arrays.copyOf(newBoard[i], 8);
+        try {
+            if (boardStatesStack.sizeStringArray() > 1) { //Cannot undo starting board state
+                boardGui.getChildren().removeIf(o -> o instanceof ImageView); //Removes all ImageViews from GUI GridPane
+
+                String[][] newBoard;
+                boardStatesStack.popStringArray(); //Pops off the current board state from the top of the stack
+
+                newBoard = boardStatesStack.popStringArray(); //Pops off the previous board state from top of stack and copies it to an array
+
+                boardStatesStack.push(newBoard); //Pushes board state back onto stack as top of stack should always contain the current board state (which is now the previous board state)
+
+                transposeToGui(newBoard); //Copies contents of previous board state onto GUI - undoing the move on the GUI
+
+                for (int i = 0; i < 8; i++) {
+                    logic_board.logicBoard[i] = Arrays.copyOf(newBoard[i], 8); //Copies previous board state into logical board array
+                }
+
+                if (AIInit) {
+                    isWhitePlaying = true; //White always plays after undo if AI is playing
+                } else {
+                    isWhitePlaying = !isWhitePlaying; //Otherwise side that is playing after undo
+                }
+
+                isCheckMate = false; //Checkmate circumstance nullified after undo
+                isStaleMate = false;
+
+                //Removes evaluation values from display after undo
+                evalWhiteText.setText("Evaluation after last move by White: ");
+                evalBlackText.setText("Evaluation after last move by Black: ");
+                evalWinningText.setText("");
             }
-            String[][] boardSave = new String[8][8];
-            for (int i = 0; i < 8; i++) {
-                boardSave[i] = Arrays.copyOf(logic_board.boardLogic[i], 8);
-            }
-            isWhitePlaying = true;
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage() + "; stack error");
         }
     }
+
     public void Easy(ActionEvent event){
-        ai.difficulty = "Easy";
+        ai.setDifficulty("Easy");
     }
     public void Medium(ActionEvent event){
-        ai.difficulty = "Medium";
+        ai.setDifficulty("Medium");
     }
     public void Hard(ActionEvent event){
-        ai.difficulty = "Hard";
+        ai.setDifficulty("Hard");
+    }
+
+    public void changeGameMode(ActionEvent event){
+        if(!gameStarted) {
+            AIInit = !AIInit; //Toggles value of AIInit
+
+            //Displays appropriate message for game mode selected
+            if (!AIInit) {
+                gameModeBtn.setText("Two-Player Mode");
+            } else {
+                gameModeBtn.setText("AI Mode");
+            }
+        }
+    }
+
+    public void recommendMove(ActionEvent event){
+
+        stack recommendedMove = new stack();
+        recommendedMove = ai.calculateMove(isWhitePlaying); //AI calculates an optimal move to play for the side playing using the minimax algorithm and returns it
+
+        //Displays piece to move, and the column and row to move it to to perform the optimal move calculated by the AI - the recommended move
+        columnToMoveToText.setText("Column: " + recommendedMove.popString());
+        rowToMoveToText.setText("Row: " + recommendedMove.popString());
+        pieceToMoveText.setText("Piece to move: " + recommendedMove.popString());
     }
 }
